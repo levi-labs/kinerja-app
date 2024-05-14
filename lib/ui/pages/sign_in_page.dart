@@ -9,16 +9,16 @@ class SignInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 24),
         children: [
           Container(
-            margin: EdgeInsets.only(top: 100),
+            margin: const EdgeInsets.only(top: 100),
             height: 200,
             width: 200,
             alignment: Alignment.center,
             child: Image.asset('assets/image_ocbc.png'),
           ),
-          Text(
+          const Text(
             'Sign In \nPerformance System',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
           ),
@@ -30,7 +30,7 @@ class SignInPage extends StatelessWidget {
             children: [
               TextFormField(
                 decoration: InputDecoration(
-                    label: Text('Username'),
+                    label: const Text('Username'),
                     hintText: 'username',
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14))),
