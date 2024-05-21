@@ -41,7 +41,7 @@ class HomePage extends StatelessWidget {
                     color: primaryColor,
                     borderRadius: const BorderRadius.only(
                       bottomRight: Radius.circular(
-                        50,
+                        80,
                       ),
                     ),
                   ),
@@ -52,7 +52,7 @@ class HomePage extends StatelessWidget {
                       ),
                       ListTile(
                         contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 30),
+                            const EdgeInsets.symmetric(horizontal: 40),
                         title: Text(
                           'Selamat Datang',
                           style: TextStyle(
@@ -114,7 +114,7 @@ class HomePage extends StatelessWidget {
         if (state is DashboardLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-        print(state);
+
         if (state is DashboardLoaded) {
           return Container(
             margin: const EdgeInsets.only(top: 10, bottom: 10),

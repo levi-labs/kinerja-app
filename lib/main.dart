@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kinerja_app/blocs/auth/auth_bloc_bloc.dart';
 import 'package:kinerja_app/blocs/dashboard/dashboard_bloc.dart';
+import 'package:kinerja_app/blocs/kriteria/kriteria_bloc.dart';
+import 'package:kinerja_app/ui/pages/kriteria_form_add.dart';
+import 'package:kinerja_app/ui/pages/kriteria_page.dart';
 import 'package:kinerja_app/ui/pages/sign_in_page.dart';
 import 'package:kinerja_app/ui/pages/splash_screen.dart';
 
@@ -27,12 +30,16 @@ class _MyAppState extends State<MyApp> {
         BlocProvider<DashboardBloc>(
           create: (context) => DashboardBloc()..add(DashboardGet()),
         ),
+        BlocProvider<KriteriaBloc>(
+          create: (context) => KriteriaBloc()..add(KriteriaGet()),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         routes: {
           '/': (context) => const SplashScreen(),
           '/sign-in': (context) => const SignInPage(),
+          '/kriteria-add': (context) => KriteriaFormAdd()
         },
       ),
     );

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class DashboardFormModel {
   final int? jumlahPegawai;
   final int? jumlahKriteria;

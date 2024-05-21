@@ -66,14 +66,14 @@ class SideBar extends StatelessWidget {
                       leading: const Icon(Icons.person),
                       title: const Text('Profile'),
                       onTap: () {}),
-                  if (state.user.username != 'admin') ...{
+                  if (state.user.username == 'admin') ...{
                     ListTile(
                         leading: const Icon(Icons.format_list_bulleted),
                         title: const Text('Kriteria'),
                         onTap: () {
                           Navigator.pushAndRemoveUntil(context,
                               MaterialPageRoute(builder: (context) {
-                            return const KriteriaPage();
+                            return KriteriaPage();
                           }), (route) => false);
                         }),
                     ListTile(
