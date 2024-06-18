@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kinerja_app/blocs/auth/auth_bloc_bloc.dart';
 import 'package:kinerja_app/blocs/dashboard/dashboard_bloc.dart';
-import 'package:kinerja_app/models/dashboard_form_model.dart';
 import 'package:kinerja_app/shared/shared_methods.dart';
 import 'package:kinerja_app/shared/theme.dart';
 import 'package:kinerja_app/ui/widget/card_dashboard.dart';
@@ -15,7 +14,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const SideBar(),
+      drawer: SideBar(),
       appBar: AppBar(
         title: const Text('Dashboard'),
         backgroundColor: primaryColor,
@@ -33,71 +32,78 @@ class HomePage extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
           if (state is AuthLoginSuccess) {
-            return ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: primaryColor,
-                    borderRadius: const BorderRadius.only(
-                      bottomRight: Radius.circular(
-                        80,
+            return RefreshIndicator(
+              onRefresh: () async {
+                context.read<DashboardBloc>().add(DashboardGet());
+                return Future<void>.value();
+              },
+              color: primaryColor,
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: const BorderRadius.only(
+                        bottomRight: Radius.circular(
+                          80,
+                        ),
                       ),
                     ),
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        ListTile(
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 40),
+                          title: Text(
+                            'Selamat Datang',
+                            style: TextStyle(
+                              color: whiteColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          subtitle: Text(
+                            state.user.nama.toString(),
+                            style: TextStyle(
+                              color: whiteColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          trailing: Icon(
+                            state.user.aksesLevel.toString() == 'admin'
+                                ? Icons.admin_panel_settings
+                                : Icons.people,
+                            color: whiteColor,
+                            size: 50,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      ListTile(
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 40),
-                        title: Text(
-                          'Selamat Datang',
-                          style: TextStyle(
-                            color: whiteColor,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        subtitle: Text(
-                          state.user.nama.toString(),
-                          style: TextStyle(
-                            color: whiteColor,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        trailing: Icon(
-                          state.user.aksesLevel.toString() == 'admin'
-                              ? Icons.admin_panel_settings
-                              : Icons.people,
+                  Container(
+                      color: primaryColor,
+                      child: Container(
+                        decoration: BoxDecoration(
                           color: whiteColor,
-                          size: 50,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                    color: primaryColor,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: whiteColor,
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(
-                            100,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(
+                              100,
+                            ),
                           ),
                         ),
-                      ),
-                      child: buildDashboardCard(context),
-                    )),
-                const SizedBox(
-                  height: 10,
-                ),
-                // buildDashboardCard(context),
-              ],
+                        child: buildDashboardCard(context),
+                      )),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  // buildDashboardCard(context),
+                ],
+              ),
             );
           }
 

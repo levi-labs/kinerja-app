@@ -3,11 +3,11 @@ import 'package:kinerja_app/shared/theme.dart';
 
 class CardDashboard extends StatelessWidget {
   final String title;
-  final Widget icon;
+  final Widget? icon;
 
   const CardDashboard({
     required this.title,
-    required this.icon,
+    this.icon,
     super.key,
   });
 
@@ -48,6 +48,7 @@ class CardDashboard extends StatelessWidget {
             ),
             child: Text(
               title.toString(),
+              style: const TextStyle(fontSize: 20),
               maxLines: 2,
             ),
           )

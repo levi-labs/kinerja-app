@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kinerja_app/blocs/auth/auth_bloc_bloc.dart';
 import 'package:kinerja_app/blocs/kriteria/kriteria_bloc.dart';
 import 'package:kinerja_app/models/kriteria_form_model.dart';
 import 'package:kinerja_app/shared/shared_methods.dart';
 import 'package:kinerja_app/shared/theme.dart';
-import 'package:kinerja_app/ui/pages/kriteria_form_add.dart';
-import 'package:kinerja_app/ui/pages/kriteria_form_edit.dart';
+import 'package:kinerja_app/ui/pages/auth/sign_in_page.dart';
+import 'package:kinerja_app/ui/pages/kriteria/kriteria_form_edit.dart';
+import 'package:kinerja_app/ui/widget/floating_add_button.dart';
 import 'package:kinerja_app/ui/widget/sidebar.dart';
 
 class KriteriaPage extends StatefulWidget {
@@ -20,9 +22,8 @@ class _KriteriaPageState extends State<KriteriaPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    context.read<KriteriaBloc>().add(KriteriaGet());
+    // context.read<KriteriaBloc>().add(KriteriaGet());
   }
 
   @override
@@ -35,6 +36,14 @@ class _KriteriaPageState extends State<KriteriaPage> {
       ),
       body: BlocBuilder<KriteriaBloc, KriteriaState>(
         builder: (context, state) {
+          var x = context.read<AuthBloc>().state;
+          if (x is AuthFailed) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return const SignInPage();
+            }));
+            showCustomSnackBar(context, x.e);
+          }
+
           if (state is KriteriaLoading) {
             return const Center(child: CircularProgressIndicator());
           }
@@ -64,7 +73,7 @@ class _KriteriaPageState extends State<KriteriaPage> {
                                     int.parse(kriteria[index].id.toString()),
                               ),
                             ),
-                            (route) => false,
+                            (route) => true, // Remove all previous routes
                           );
                         },
                         onLongPress: () {
@@ -159,17 +168,12 @@ class _KriteriaPageState extends State<KriteriaPage> {
                   padding: EdgeInsets.zero,
                 ),
                 const SizedBox(height: 100),
-                Positioned(
-                  bottom: 40,
-                  right: 20,
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, '/kriteria-add', (route) => true);
-                    },
-                    child: const Icon(Icons.add),
-                  ),
-                ),
+                FloatingAddButton(
+                  onPress: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, '/kriteria-add', (route) => true);
+                  },
+                )
               ],
             );
           }

@@ -10,9 +10,9 @@ class KriteriaBloc extends Bloc<KriteriaEvent, KriteriaState> {
   KriteriaBloc() : super(KriteriaInitial()) {
     on<KriteriaEvent>((event, emit) async {
       // TODO: implement event handler
-
       if (event is KriteriaGet) {
         try {
+          emit(KriteriaLoading());
           final response = await KriteriaService().getKriteria();
           emit(KriteriaLoaded(response));
         } catch (e) {
@@ -23,7 +23,7 @@ class KriteriaBloc extends Bloc<KriteriaEvent, KriteriaState> {
       if (event is KriteriaAdd) {
         try {
           emit(KriteriaLoading());
-          var response = await KriteriaService().createKriteria(event.data);
+          await KriteriaService().createKriteria(event.data);
 
           emit(KriteriaAddSuccess());
         } catch (e) {
@@ -54,7 +54,7 @@ class KriteriaBloc extends Bloc<KriteriaEvent, KriteriaState> {
       if (event is KriteriaDelete) {
         try {
           emit(KriteriaLoading());
-          var response = await KriteriaService().deleteKriteria(event.id);
+          await KriteriaService().deleteKriteria(event.id);
           emit(KriteriaDeleteSuccess());
         } catch (e) {
           emit(KriteriaFailed(e.toString()));

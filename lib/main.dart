@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kinerja_app/blocs/auth/auth_bloc_bloc.dart';
 import 'package:kinerja_app/blocs/dashboard/dashboard_bloc.dart';
+import 'package:kinerja_app/blocs/indikator/indikator_bloc.dart';
 import 'package:kinerja_app/blocs/kriteria/kriteria_bloc.dart';
-import 'package:kinerja_app/ui/pages/kriteria_form_add.dart';
-import 'package:kinerja_app/ui/pages/kriteria_page.dart';
-import 'package:kinerja_app/ui/pages/sign_in_page.dart';
-import 'package:kinerja_app/ui/pages/splash_screen.dart';
+import 'package:kinerja_app/blocs/nilai/nilai_bloc.dart';
+import 'package:kinerja_app/blocs/skala/skala_bloc.dart';
+import 'package:kinerja_app/ui/pages/indikator/indikator_form_add.dart';
+import 'package:kinerja_app/ui/pages/indikator/indikator_page.dart';
+import 'package:kinerja_app/ui/pages/kriteria/kriteria_form_add.dart';
+import 'package:kinerja_app/ui/pages/auth/sign_in_page.dart';
+import 'package:kinerja_app/ui/pages/loading_screen/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,13 +37,31 @@ class _MyAppState extends State<MyApp> {
         BlocProvider<KriteriaBloc>(
           create: (context) => KriteriaBloc()..add(KriteriaGet()),
         ),
+
+        BlocProvider<IndikatorBloc>(
+          create: (context) => IndikatorBloc()..add(GetEventIndikator()),
+        ),
+
+        BlocProvider<SkalaBloc>(
+          create: (context) => SkalaBloc()..add(SkalaEventGet()),
+        ),
+
+        BlocProvider<NilaiBloc>(
+          create: (context) => NilaiBloc()..add(NilaiLoadedEvent()),
+        )
+
+        // BlocProvider<KriteriaBloc>(
+        //   create: (context) => KriteriaBloc()..add(KriteriaGet()),
+        // ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         routes: {
           '/': (context) => const SplashScreen(),
           '/sign-in': (context) => const SignInPage(),
-          '/kriteria-add': (context) => KriteriaFormAdd()
+          '/kriteria-add': (context) => KriteriaFormAdd(),
+          '/indikator': (context) => const IndikatorPage(),
+          '/indikator-add': (context) => const IndikatorAddPage()
         },
       ),
     );
