@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:kinerja_app/blocs/nilai/nilai_bloc.dart';
 import 'package:kinerja_app/models/nilai_form_model.dart';
+import 'package:kinerja_app/shared/shared_methods.dart';
 import 'package:kinerja_app/shared/theme.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CardWidget extends StatelessWidget {
   const CardWidget({
@@ -25,7 +29,17 @@ class CardWidget extends StatelessWidget {
           return Material(
               color: Colors.grey,
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  // showCustomSnackBar(context,
+                  //     data[index].tanggalNilai.toString().substring(0, 10));
+                  // Navigator.pushNamed(context, '/detail-nilai',
+                  //     arguments: data[index]);
+
+                  context.read<NilaiBloc>().add(NilaiCreateByDateEvent(
+                      data[index].tanggalNilai.toString().substring(0, 10)));
+                  // context.read<NilaiBloc>().add(NilaiCreateByDateEvent(
+                  //     data[index].tanggalNilai.toString().substring(0, 10)));
+                },
                 child: Container(
                   decoration: BoxDecoration(
                       color: whiteColor,
@@ -64,7 +78,7 @@ class CardWidget extends StatelessWidget {
                         )),
                       ),
                       const SizedBox(
-                        height: 20,
+                        height: 10,
                       ),
                       Text(data[index].tanggalNilai.toString().substring(0, 10),
                           style: TextStyle(

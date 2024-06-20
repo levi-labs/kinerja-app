@@ -26,3 +26,14 @@ class NilaiErrorState extends NilaiState {
   @override
   List<Object> get props => [e];
 }
+
+class NilaiShowByDateState extends NilaiState {
+  // final List<NilaiFormModel> data;
+
+  final List<NilaiCreateFormModel> data;
+
+  const NilaiShowByDateState(this.data);
+
+  @override
+  List<Object> get props => [data];
+}

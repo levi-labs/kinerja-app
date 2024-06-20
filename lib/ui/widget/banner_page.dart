@@ -25,16 +25,14 @@ class BannerWidgetPage extends StatelessWidget {
       ),
       child: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Image.asset(
               image,
               fit: BoxFit.fill,
-              width: 300,
-              height: 300,
-            ),
-            const SizedBox(
-              height: 10,
+              width: 350,
+              height: 350,
             ),
             Text(title,
                 style: TextStyle(

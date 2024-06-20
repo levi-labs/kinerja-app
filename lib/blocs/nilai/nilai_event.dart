@@ -14,9 +14,9 @@ abstract class NilaiEvent extends Equatable {
 
 class NilaiLoadedEvent extends NilaiEvent {}
 
-class NilaiShowByDateEvent extends NilaiEvent {
+class NilaiCreateByDateEvent extends NilaiEvent {
   final String date;
-  const NilaiShowByDateEvent(this.date);
+  const NilaiCreateByDateEvent(this.date);
 
   @override
   List<Object> get props => [date];
