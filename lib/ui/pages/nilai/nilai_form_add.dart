@@ -21,9 +21,9 @@ class _NilaiAddPageState extends State<NilaiAddPage> {
   List<IndikatorFormModel> listIndikator = [];
 
   List<PegawaiFormModel> listPegawai = [];
-  List<TextEditingController> listController = [];
 
   var _controller = <TextEditingController>[];
+  var _controllerId = <int>[];
 
   TextEditingController namaController = TextEditingController(text: '');
 
@@ -87,10 +87,19 @@ class _NilaiAddPageState extends State<NilaiAddPage> {
               //   _controller = List.generate(
               //       listIndikator.length, (_) => TextEditingController());
               // }
-              if (_controller.length != listIndikator.length) {
+              // if (_controller.length != listIndikator.length) {
+              //   _controller = List.generate(listIndikator.length,
+              //       (_) => TextEditingController(text: '0'));
+              // }
+
+              if (listIndikator.isNotEmpty) {
                 _controller = List.generate(listIndikator.length,
                     (_) => TextEditingController(text: '0'));
+
+                _controllerId = List.generate(
+                    listIndikator.length, (_) => listIndikator[_].id!);
               }
+              print(_controllerId);
 
               return Column(children: [
                 const SizedBox(height: 20),
