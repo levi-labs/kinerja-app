@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kinerja_app/blocs/nilai/nilai_bloc.dart';
@@ -24,12 +22,8 @@ class _NilaiAddPageState extends State<NilaiAddPage> {
 
   var _controller = <TextEditingController>[];
   var _controllerId = <int>[];
-
-  TextEditingController namaController = TextEditingController(text: '');
-
-  TextEditingController intervalController = TextEditingController(text: '');
-
-  TextEditingController keteranganController = TextEditingController(text: '');
+  var tanggalNilaiController = TextEditingController(text: '');
+  TextEditingController idPegawaiController = TextEditingController(text: '');
 
   void _increment(int id) {
     _controller[id].text = (int.parse(_controller[id].text) + 1).toString();
@@ -50,62 +44,63 @@ class _NilaiAddPageState extends State<NilaiAddPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: const SideBar(),
-        appBar: AppBar(
-          title: const Text('Form Nilai'),
-          leading: IconButton(
-            onPressed: () {
-              context.read<NilaiBloc>().add(NilaiLoadedEvent());
-              Navigator.pop(context);
-            },
-            icon: const Icon(Icons.arrow_back),
-          ),
-        ),
-        body: BlocConsumer<NilaiBloc, NilaiState>(
-          listener: (context, state) {
-            if (state is NilaiErrorState) {
-              showCustomSnackBar(context, state.e);
-            }
+      drawer: const SideBar(),
+      appBar: AppBar(
+        title: const Text('Form Nilai'),
+        leading: IconButton(
+          onPressed: () {
+            context.read<NilaiBloc>().add(NilaiLoadedEvent());
+            Navigator.pop(context);
           },
-          builder: (context, state) {
-            if (state is NilaiLoadingState) {
-              return const Center(child: CircularProgressIndicator());
+          icon: const Icon(Icons.arrow_back),
+        ),
+      ),
+      body: BlocConsumer<NilaiBloc, NilaiState>(
+        listener: (context, state) {
+          if (state is NilaiErrorState) {
+            showCustomSnackBar(context, state.e);
+            print(state.e);
+          }
+          if (state is NilaiCreateSuccessState) {
+            Navigator.pop(context);
+            context.read<NilaiBloc>().add(NilaiLoadedEvent());
+            showCustomSnackBar(context, 'Data Nilai Berhasil');
+          }
+        },
+        builder: (context, state) {
+          if (state is NilaiLoadingState) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (state is NilaiShowByDateState) {
+            listIndikator = state.data[0].indikator;
+            listPegawai = state.data[0].pegawai;
+            tanggalNilaiController.text = state.data[0].tanggalNilai.toString();
+
+            print(tanggalNilaiController.text);
+            if (listIndikator.isEmpty) {
+              return const Center(
+                  child: Text(
+                      'Tidak Ada Indikator')); // Show message for empty list
             }
-            if (state is NilaiShowByDateState) {
-              listIndikator = state.data[0].indikator;
-              listPegawai = state.data[0].pegawai;
-              if (listIndikator.isEmpty) {
-                return const Center(
-                    child: Text(
-                        'Tidak Ada Indikator')); // Show message for empty list
-              }
-              // if (listIndikator.isNotEmpty) {
-              //   listController = List.generate(
-              //       listIndikator.length, (_) => TextEditingController());
-              // }
-              // if (_controller.isEmpty) {
-              //   _controller = List.generate(
-              //       listIndikator.length, (_) => TextEditingController());
-              // }
-              // if (_controller.length != listIndikator.length) {
-              //   _controller = List.generate(listIndikator.length,
-              //       (_) => TextEditingController(text: '0'));
-              // }
 
-              if (listIndikator.isNotEmpty) {
-                _controller = List.generate(listIndikator.length,
-                    (_) => TextEditingController(text: '0'));
+            if (listIndikator.isNotEmpty) {
+              _controller = List.generate(listIndikator.length,
+                  (_) => TextEditingController(text: '0'));
 
-                _controllerId = List.generate(
-                    listIndikator.length, (_) => listIndikator[_].id!);
-              }
-              print(_controllerId);
+              _controllerId = List.generate(
+                  listIndikator.length, (_) => listIndikator[_].id!);
+            }
+            // print(_controllerId);
 
-              return Column(children: [
+            return Column(
+              children: [
                 const SizedBox(height: 20),
                 DropdownMenu(
                     width: 400,
                     label: const Text('Daftar Pegawai'),
+                    onSelected: (value) {
+                      idPegawaiController.text = value.toString();
+                    },
                     dropdownMenuEntries: listPegawai
                         .map((e) => DropdownMenuEntry(
                             value: e.id.toString(), label: e.namaLengkap))
@@ -116,43 +111,68 @@ class _NilaiAddPageState extends State<NilaiAddPage> {
                     itemCount: listIndikator.length,
                     itemBuilder: (context, index) {
                       if (index < listIndikator.length) {
-                        return Card(
-                          child: ListTile(
-                            title: Text(listIndikator[index].nama),
-                            subtitle: Text(
-                                listIndikator[index].kriteria!.nama.toString()),
-                            trailing: SizedBox(
-                              width: 200,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  ElevatedButton(
-                                    onPressed: () => _increment(index),
-                                    child: const Icon(Icons.add),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Expanded(
-                                    child: TextField(
-                                      controller: _controller[index],
-                                      keyboardType: TextInputType.number,
-                                      decoration: const InputDecoration(
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0),
-                                          ),
+                        return SizedBox(
+                          height: 150,
+                          child: Card(
+                            child: Center(
+                              child: ListTile(
+                                title: Text(listIndikator[index].nama),
+                                subtitle: Text(listIndikator[index]
+                                    .kriteria!
+                                    .nama
+                                    .toString()),
+                                trailing: SizedBox(
+                                  width: 200,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        child: ElevatedButton(
+                                          onPressed: () => _increment(index),
+                                          style: ElevatedButton.styleFrom(
+                                              shape: const CircleBorder()),
+                                          child: const Icon(Icons.add),
                                         ),
                                       ),
-                                      onChanged: (value) {
-                                        _controller[index].text = value;
-                                      },
-                                    ),
+                                      const SizedBox(width: 5),
+                                      Expanded(
+                                        child: TextField(
+                                          textAlign: TextAlign.center,
+                                          controller: _controller[index],
+                                          keyboardType: TextInputType.number,
+                                          decoration: const InputDecoration(
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0),
+                                              ),
+                                            ),
+                                          ),
+                                          onChanged: (value) {
+                                            _controller[index].text = value;
+                                          },
+                                        ),
+                                      ),
+                                      const SizedBox(width: 5),
+                                      ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        child: ElevatedButton(
+                                          onPressed: () => _decrement(index),
+                                          style: ElevatedButton.styleFrom(
+                                            shape: const CircleBorder(),
+                                          ),
+                                          child: const Icon(Icons.remove),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 5),
+                                    ],
                                   ),
-                                  const SizedBox(width: 10),
-                                  ElevatedButton(
-                                    onPressed: () => _decrement(index),
-                                    child: const Icon(Icons.remove),
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
                           ),
@@ -164,10 +184,34 @@ class _NilaiAddPageState extends State<NilaiAddPage> {
                     },
                   ),
                 ),
-              ]);
-            }
-            return Container();
+                const SizedBox(height: 100),
+              ],
+            );
+          }
+          return Container();
+        },
+      ),
+      floatingActionButton: Container(
+        margin: const EdgeInsets.all(24),
+        width: 120,
+        child: FloatingActionButton(
+          onPressed: () {
+            List<int> controllerValues =
+                _controller.map((c) => int.parse(c.text)).toList();
+            context.read<NilaiBloc>().add(NilaiCreateDataEvent(
+                idPegawaiController.text, _controllerId, controllerValues));
           },
-        ));
+          elevation: 4,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: const Text(
+            'Submit',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
   }
 }

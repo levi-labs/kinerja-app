@@ -37,3 +37,5 @@ class NilaiShowByDateState extends NilaiState {
   @override
   List<Object> get props => [data];
 }
+
+class NilaiCreateSuccessState extends NilaiState {}

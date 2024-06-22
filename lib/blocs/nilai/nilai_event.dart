@@ -21,3 +21,14 @@ class NilaiCreateByDateEvent extends NilaiEvent {
   @override
   List<Object> get props => [date];
 }
+
+class NilaiCreateDataEvent extends NilaiEvent {
+  final String idPegawai;
+  final List<int> controllerId;
+  final List<int> controllerNilai;
+  const NilaiCreateDataEvent(
+      this.idPegawai, this.controllerId, this.controllerNilai);
+
+  @override
+  List<Object> get props => [idPegawai, controllerId, controllerNilai];
+}

@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 import 'package:kinerja_app/models/nilai_form_model.dart';
 import 'package:kinerja_app/models/nilai_form_create_model.dart';
@@ -27,6 +28,17 @@ class NilaiBloc extends Bloc<NilaiEvent, NilaiState> {
           final data = await NilaiService().createNilaiByDate(event.date);
 
           emit(NilaiShowByDateState(data));
+        } catch (e) {
+          emit(NilaiErrorState(e.toString()));
+        }
+      }
+
+      if (event is NilaiCreateDataEvent) {
+        emit(NilaiLoadingState());
+        try {
+          await NilaiService().storeNilai(
+              event.idPegawai, event.controllerId, event.controllerNilai);
+          emit(NilaiCreateSuccessState());
         } catch (e) {
           emit(NilaiErrorState(e.toString()));
         }

@@ -5,9 +5,11 @@ import 'package:kinerja_app/ui/pages/skala/skala_page.dart';
 import 'package:kinerja_app/ui/widget/sidebar.dart';
 
 class SkalaAddPage extends StatelessWidget {
-  TextEditingController namaController = TextEditingController(text: '');
-  TextEditingController intervalController = TextEditingController(text: '');
-  TextEditingController keteranganController = TextEditingController(text: '');
+  final TextEditingController namaController = TextEditingController(text: '');
+  final TextEditingController intervalController =
+      TextEditingController(text: '');
+  final TextEditingController keteranganController =
+      TextEditingController(text: '');
 
   SkalaAddPage({super.key});
 

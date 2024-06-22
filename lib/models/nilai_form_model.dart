@@ -10,18 +10,21 @@
 //     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class NilaiFormModel {
-  DateTime tanggalNilai;
+  // DateTime tanggalNilai;
+  String tanggalNilai;
 
   NilaiFormModel({
     required this.tanggalNilai,
   });
 
   factory NilaiFormModel.fromJson(Map<String, dynamic> json) => NilaiFormModel(
-        tanggalNilai: DateTime.parse(json["tanggal_nilai"]),
+        // tanggalNilai: DateTime.parse(json["tanggal_nilai"]),
+        tanggalNilai: json["tanggal_nilai"],
       );
 
   Map<String, dynamic> toJson() => {
-        "tanggal_nilai":
-            "${tanggalNilai.year.toString().padLeft(4, '0')}-${tanggalNilai.month.toString().padLeft(2, '0')}-${tanggalNilai.day.toString().padLeft(2, '0')}",
+        // "tanggal_nilai":
+        //     "${tanggalNilai.year.toString().padLeft(4, '0')}-${tanggalNilai.month.toString().padLeft(2, '0')}-${tanggalNilai.day.toString().padLeft(2, '0')}",
+        "tanggal_nilai": tanggalNilai,
       };
 }

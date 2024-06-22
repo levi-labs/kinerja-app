@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kinerja_app/models/nilai_form_create_model.dart';
 
@@ -79,6 +80,32 @@ class NilaiService {
     } catch (e) {
       print(e);
 
+      rethrow;
+    }
+  }
+
+  Future<void> storeNilai(String idPegawai, List<int> controllerId,
+      List<int> controllerNilai) async {
+    try {
+      var url = Uri.parse('$baseUrl/nilai/post');
+      var token = await AuthService().getToken();
+      var response = await http.post(
+        url,
+        headers: {
+          'Authorization': token,
+        },
+        body: {
+          'pegawai_id': idPegawai,
+          'indikator_id': controllerId,
+          'nilai_input': controllerNilai,
+        },
+      );
+      print(response.body);
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body)['message'];
+      }
+      throw jsonDecode(response.body)['error'];
+    } catch (e) {
       rethrow;
     }
   }

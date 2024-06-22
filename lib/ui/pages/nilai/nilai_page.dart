@@ -4,9 +4,7 @@ import 'package:kinerja_app/blocs/nilai/nilai_bloc.dart';
 import 'package:kinerja_app/models/nilai_form_model.dart';
 import 'package:kinerja_app/shared/shared_methods.dart';
 import 'package:kinerja_app/shared/theme.dart';
-import 'package:kinerja_app/ui/pages/nilai/nilai_form_add.dart';
 import 'package:kinerja_app/ui/widget/banner_page.dart';
-import 'package:kinerja_app/ui/widget/card_list.dart';
 import 'package:kinerja_app/ui/widget/sidebar.dart';
 
 class NilaiPage extends StatefulWidget {
@@ -48,49 +46,43 @@ class _NilaiPageState extends State<NilaiPage> {
                     scrollDirection: Axis.vertical,
                     gridDelegate:
                         const SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 400,
+                      maxCrossAxisExtent: 200,
                       childAspectRatio: 1,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 1,
+                      mainAxisSpacing: 12,
                     ),
                     itemCount: data.length,
                     itemBuilder: (context, index) {
                       return Material(
-                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(10),
                           child: InkWell(
                             onTap: () {
-                              // showCustomSnackBar(context,
-                              //     data[index].tanggalNilai.toString().substring(0, 10));
-                              // Navigator.pushNamed(context, '/detail-nilai',
-                              //     arguments: data[index]);
-
                               context.read<NilaiBloc>().add(
                                   NilaiCreateByDateEvent(data[index]
                                       .tanggalNilai
                                       .toString()
-                                      .substring(0, 10)));
+                                      .substring(0, 7)));
                               Navigator.pushNamed(context, '/nilai-add');
-
-                              // context.read<NilaiBloc>().add(NilaiCreateByDateEvent(
-                              //     data[index].tanggalNilai.toString().substring(0, 10)));
                             },
+                            onLongPress: () {},
                             child: Container(
+                              margin: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
                                   color: whiteColor,
                                   borderRadius: BorderRadius.circular(5),
                                   boxShadow: const [
                                     BoxShadow(
-                                      color: Colors.grey,
-                                      blurRadius: 0.5,
-                                      offset: Offset(0, 3),
-                                    ),
+                                        color: Colors.grey,
+                                        blurRadius: 2,
+                                        offset: Offset(0, 2),
+                                        spreadRadius: 0.1),
                                   ]),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Container(
-                                    width: 100,
-                                    height: 100,
+                                    width: 80,
+                                    height: 80,
                                     decoration: BoxDecoration(
                                       color: const Color.fromARGB(
                                           255, 101, 170, 244),
@@ -98,7 +90,7 @@ class _NilaiPageState extends State<NilaiPage> {
                                       boxShadow: const [
                                         BoxShadow(
                                           color: Colors.grey,
-                                          blurRadius: 0.5,
+                                          blurRadius: 10,
                                           offset: Offset(0, 3),
                                         ),
                                       ],
@@ -108,7 +100,7 @@ class _NilaiPageState extends State<NilaiPage> {
                                       data[index]
                                           .tanggalNilai
                                           .toString()
-                                          .substring(8, 10),
+                                          .substring(5, 7),
                                       style: TextStyle(
                                           color: whiteColor,
                                           fontSize: 24,
@@ -122,10 +114,10 @@ class _NilaiPageState extends State<NilaiPage> {
                                       data[index]
                                           .tanggalNilai
                                           .toString()
-                                          .substring(0, 10),
+                                          .substring(0, 4),
                                       style: TextStyle(
                                           color: darkColor,
-                                          fontSize: 20,
+                                          fontSize: 12,
                                           fontWeight: FontWeight.bold)),
                                 ],
                               ),
