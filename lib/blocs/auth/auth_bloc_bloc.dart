@@ -26,7 +26,8 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
         try {
           emit(AuthLoading());
 
-          final data = await AuthService().getCurrentCredentials();
+          final LoginFormModel data =
+              await AuthService().getCurrentCredentials();
           final UserModel user = await AuthService().login(data);
 
           emit(AuthLoginSuccess(user));

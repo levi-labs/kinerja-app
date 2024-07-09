@@ -16,6 +16,7 @@ class NilaiPage extends StatefulWidget {
 
 class _NilaiPageState extends State<NilaiPage> {
   List<NilaiFormModel> data = [];
+  String searchQuery = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,11 +59,12 @@ class _NilaiPageState extends State<NilaiPage> {
                           child: InkWell(
                             onTap: () {
                               context.read<NilaiBloc>().add(
-                                  NilaiCreateByDateEvent(data[index]
+                                  NilaiShowByDateEvent(data[index]
                                       .tanggalNilai
                                       .toString()
                                       .substring(0, 7)));
-                              Navigator.pushNamed(context, '/nilai-add');
+                              print(data[index].tanggalNilai);
+                              Navigator.pushNamed(context, '/nilai-by-date');
                             },
                             onLongPress: () {},
                             child: Container(
@@ -90,7 +92,7 @@ class _NilaiPageState extends State<NilaiPage> {
                                       boxShadow: const [
                                         BoxShadow(
                                           color: Colors.grey,
-                                          blurRadius: 10,
+                                          blurRadius: 0.5,
                                           offset: Offset(0, 3),
                                         ),
                                       ],

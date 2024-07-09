@@ -75,21 +75,24 @@ class CardSkala extends StatelessWidget {
     return GridView.builder(
         scrollDirection: Axis.vertical,
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 400,
+          maxCrossAxisExtent: 250,
           childAspectRatio: 1,
           crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
+          mainAxisSpacing: 12,
         ),
         itemCount: data.length,
         itemBuilder: (context, index) {
           return Material(
-              color: Colors.grey,
+              borderRadius: BorderRadius.circular(15),
               child: InkWell(
+                borderRadius: BorderRadius.circular(15),
                 onTap: () {},
+                onLongPress: () {},
                 child: Container(
+                  margin: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                       color: whiteColor,
-                      borderRadius: BorderRadius.circular(5),
+                      borderRadius: BorderRadius.circular(15),
                       boxShadow: const [
                         BoxShadow(
                           color: Colors.grey,
@@ -101,8 +104,8 @@ class CardSkala extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        width: 100,
-                        height: 100,
+                        width: 80,
+                        height: 80,
                         decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 101, 170, 244),
                           borderRadius: BorderRadius.circular(100),
@@ -124,7 +127,7 @@ class CardSkala extends StatelessWidget {
                         )),
                       ),
                       const SizedBox(
-                        height: 20,
+                        height: 5,
                       ),
                       Text(data[index].keterangan,
                           style: const TextStyle(
@@ -132,7 +135,7 @@ class CardSkala extends StatelessWidget {
                               fontSize: 16,
                               fontWeight: FontWeight.bold)),
                       const SizedBox(
-                        height: 10,
+                        height: 5,
                       ),
                       Text(data[index].interval,
                           style: const TextStyle(

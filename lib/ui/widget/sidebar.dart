@@ -30,6 +30,13 @@ class SideBar extends StatelessWidget {
               Navigator.pushNamedAndRemoveUntil(
                   context, '/sign-in', (route) => false);
             }
+            if (state is AuthLoginSuccess) {
+              context.read<DashboardBloc>().add(DashboardGet());
+              context.read<IndikatorBloc>().add(GetEventIndikator());
+              context.read<NilaiBloc>().add(NilaiLoadedEvent());
+              context.read<KriteriaBloc>().add(KriteriaGet());
+              context.read<SkalaBloc>().add(SkalaEventGet());
+            }
           },
           builder: (context, state) {
             if (state is AuthLoading) {
@@ -114,7 +121,7 @@ class SideBar extends StatelessWidget {
                         onTap: () {}),
                   },
                   ListTile(
-                      leading: const Icon(Icons.exit_to_app),
+                      leading: const Icon(Icons.assignment),
                       title: const Text('Penilaian Kinerja'),
                       onTap: () {
                         context.read<NilaiBloc>().add(NilaiLoadedEvent());

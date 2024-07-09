@@ -59,7 +59,7 @@ class _NilaiAddPageState extends State<NilaiAddPage> {
         listener: (context, state) {
           if (state is NilaiErrorState) {
             showCustomSnackBar(context, state.e);
-            print(state.e);
+            // print(state.e);
           }
           if (state is NilaiCreateSuccessState) {
             Navigator.pop(context);
@@ -76,7 +76,7 @@ class _NilaiAddPageState extends State<NilaiAddPage> {
             listPegawai = state.data[0].pegawai;
             tanggalNilaiController.text = state.data[0].tanggalNilai.toString();
 
-            print(tanggalNilaiController.text);
+            // print(tanggalNilaiController.text);
             if (listIndikator.isEmpty) {
               return const Center(
                   child: Text(
@@ -198,8 +198,13 @@ class _NilaiAddPageState extends State<NilaiAddPage> {
           onPressed: () {
             List<int> controllerValues =
                 _controller.map((c) => int.parse(c.text)).toList();
+
+            // print([idPegawaiController.text.to, _controllerId, controllerValues]);
             context.read<NilaiBloc>().add(NilaiCreateDataEvent(
-                idPegawaiController.text, _controllerId, controllerValues));
+                idPegawaiController.text.toString(),
+                _controllerId,
+                controllerValues,
+                tanggalNilaiController.text.toString()));
           },
           elevation: 4,
           shape: RoundedRectangleBorder(

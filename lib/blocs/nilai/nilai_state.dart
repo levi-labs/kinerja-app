@@ -38,4 +38,12 @@ class NilaiShowByDateState extends NilaiState {
   List<Object> get props => [data];
 }
 
+class NilaiLoadedByDateState extends NilaiState {
+  final List<NilaiByDate> data;
+  const NilaiLoadedByDateState(this.data);
+
+  @override
+  List<Object> get props => [data];
+}
+
 class NilaiCreateSuccessState extends NilaiState {}

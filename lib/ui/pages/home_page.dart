@@ -117,6 +117,9 @@ class HomePage extends StatelessWidget {
   Widget buildDashboardCard(BuildContext context) {
     return BlocBuilder<DashboardBloc, DashboardState>(
       builder: (context, state) {
+        if (state is AuthLoginSuccess) {
+          return const Center(child: CircularProgressIndicator());
+        }
         if (state is DashboardLoading) {
           return const Center(child: CircularProgressIndicator());
         }
