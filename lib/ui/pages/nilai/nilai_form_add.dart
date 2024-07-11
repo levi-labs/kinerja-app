@@ -117,10 +117,25 @@ class _NilaiAddPageState extends State<NilaiAddPage> {
                             child: Center(
                               child: ListTile(
                                 title: Text(listIndikator[index].nama),
-                                subtitle: Text(listIndikator[index]
-                                    .kriteria!
-                                    .nama
-                                    .toString()),
+                                subtitle: Container(
+                                  margin: const EdgeInsets.only(top: 20),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(listIndikator[index]
+                                          .kriteria!
+                                          .nama
+                                          .toString()),
+                                      const SizedBox(height: 10),
+                                      Text(
+                                          'Nilai Pembanding :  ${listIndikator[index].nilaiPembanding}'),
+                                      const SizedBox(height: 10),
+                                      Text(
+                                          'Bobot :  ${listIndikator[index].bobot}'),
+                                    ],
+                                  ),
+                                ),
                                 trailing: SizedBox(
                                   width: 200,
                                   child: Row(

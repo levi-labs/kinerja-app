@@ -79,7 +79,7 @@ class SideBar extends StatelessWidget {
                       }),
                   ListTile(
                       leading: const Icon(Icons.person),
-                      title: const Text('Profile'),
+                      title: const Text('Pegawai'),
                       onTap: () {}),
                   if (state.user.username == 'admin') ...{
                     ListTile(

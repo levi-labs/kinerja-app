@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:kinerja_app/models/nilai_form_by_date_model.dart';
 import 'package:kinerja_app/models/nilai_form_create_model.dart';
+import 'package:kinerja_app/models/nilai_form_edit_model.dart';
 
 import 'package:kinerja_app/models/nilai_form_model.dart';
 import 'package:kinerja_app/services/auth_service.dart';
@@ -103,7 +104,7 @@ class NilaiService {
       );
 
       if (response.statusCode == 200) {
-        return jsonDecode(response.body)['data'];
+        return jsonDecode(response.body)['message'];
       }
       throw jsonDecode(response.body)['error'];
     } catch (e) {
@@ -111,9 +112,10 @@ class NilaiService {
     }
   }
 
-  Future<NilaiCreateFormModel> getNilaiByPegawai(String idPegawai) async {
+  Future<NilaiEditForm> editNilaiByIdAndDate(
+      String idPegawai, String date) async {
     try {
-      var url = Uri.parse('$baseUrl/nilai/edit/$idPegawai');
+      var url = Uri.parse('$baseUrl/nilai/edit/$idPegawai/$date');
       var token = await AuthService().getToken();
       var response = await http.get(
         url,
@@ -121,10 +123,54 @@ class NilaiService {
           'Authorization': token,
         },
       );
+
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonData = jsonDecode(response.body);
-        NilaiCreateFormModel data = NilaiCreateFormModel.fromJson(jsonData);
+        NilaiEditForm data = NilaiEditForm.fromJson(jsonData);
         return data;
+      }
+      throw jsonDecode(response.body)['error'];
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> updateNilaiByIdAndDate(
+    List<int> indikatorId,
+    List<int> nilaiId,
+    List<int> nilaiInput,
+  ) async {
+    try {
+      var url = Uri.parse('$baseUrl/nilai/update');
+      var token = await AuthService().getToken();
+      var response = await http.put(url, headers: {
+        'Authorization': token,
+      }, body: {
+        'indikator_id': jsonEncode(indikatorId),
+        'nilai_id': jsonEncode(nilaiId),
+        'nilai_input': jsonEncode(nilaiInput),
+      });
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body)['message'];
+      }
+      throw jsonDecode(response.body)['error'];
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> deleteNilaiByIdAndDate(String idPegawai, String date) async {
+    try {
+      var url = Uri.parse('$baseUrl/nilai/$idPegawai/$date');
+      var token = await AuthService().getToken();
+      var response = await http.delete(
+        url,
+        headers: {
+          'Authorization': token,
+        },
+      );
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body)['message'];
       }
       throw jsonDecode(response.body)['error'];
     } catch (e) {

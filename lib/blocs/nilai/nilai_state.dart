@@ -46,4 +46,16 @@ class NilaiLoadedByDateState extends NilaiState {
   List<Object> get props => [data];
 }
 
+class NilaiLoadedByIdPegawaiAndDateState extends NilaiState {
+  final NilaiEditForm data;
+  const NilaiLoadedByIdPegawaiAndDateState(this.data);
+
+  @override
+  List<Object> get props => [data];
+}
+
 class NilaiCreateSuccessState extends NilaiState {}
+
+class NilaiUpdateSuccessState extends NilaiState {}
+
+class NilaiDeleteSuccessState extends NilaiState {}

@@ -13,6 +13,7 @@ import 'package:kinerja_app/ui/pages/auth/sign_in_page.dart';
 import 'package:kinerja_app/ui/pages/loading_screen/splash_screen.dart';
 import 'package:kinerja_app/ui/pages/nilai/nilai_detail_list.dart';
 import 'package:kinerja_app/ui/pages/nilai/nilai_form_add.dart';
+import 'package:kinerja_app/ui/pages/nilai/nilai_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -64,6 +65,7 @@ class _MyAppState extends State<MyApp> {
           '/kriteria-add': (context) => KriteriaFormAdd(),
           '/indikator': (context) => const IndikatorPage(),
           '/indikator-add': (context) => const IndikatorAddPage(),
+          '/nilai': (context) => const NilaiPage(),
           '/nilai-add': (context) => const NilaiAddPage(),
           '/nilai-by-date': (context) => const NilaiListByDate(),
         },

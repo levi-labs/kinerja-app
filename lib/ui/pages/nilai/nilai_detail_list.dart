@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kinerja_app/blocs/auth/auth_bloc_bloc.dart';
@@ -5,6 +7,7 @@ import 'package:kinerja_app/blocs/nilai/nilai_bloc.dart';
 import 'package:kinerja_app/shared/shared_methods.dart';
 import 'package:kinerja_app/shared/theme.dart';
 import 'package:kinerja_app/ui/pages/auth/sign_in_page.dart';
+import 'package:kinerja_app/ui/pages/nilai/nilai_form_edit.dart';
 import 'package:kinerja_app/ui/widget/floating_add_button.dart';
 import 'package:kinerja_app/ui/widget/sidebar.dart';
 
@@ -17,7 +20,8 @@ class NilaiListByDate extends StatefulWidget {
 
 class _NilaiListByDateState extends State<NilaiListByDate> {
   List data = [];
-
+  String skala = '';
+  String tanggalNilai = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,38 +41,63 @@ class _NilaiListByDateState extends State<NilaiListByDate> {
           }
 
           if (state is NilaiErrorState) {
-            print(state.e);
+            showCustomSnackBar(context, state.e);
           }
           if (state is NilaiLoadingState) {
             return const Center(child: CircularProgressIndicator());
           }
-          // if (state is NilaiDeleteSuccessState) {
-          //   context.read<NilaiState>().add(NilaiGetbyDate());
-          //   return const Center(child: CircularProgressIndicator());
-          // }
+          if (state is NilaiDeleteSuccessState) {
+            context.read<NilaiBloc>().add(
+                NilaiShowByDateEvent(tanggalNilai.toString().substring(0, 7)));
+
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              showCustomSnackBar(context, 'Nilai Success Deleted');
+            });
+          }
+
           if (state is NilaiLoadedByDateState) {
             data = state.data;
-            print(data.length);
+            for (var i = 0; i < data.length; i++) {
+              if (data.isNotEmpty) {
+                if (data[i].totalNilai >= 86) {
+                  skala = 'A';
+                } else if (data[i].totalNilai > 76 || data[i].totalNilai < 86) {
+                  skala = 'B';
+                } else if (data[i].totalNilai > 61 ||
+                    data[i].totalNilai <= 76) {
+                  skala = 'C';
+                } else if (data[i].totalNilai > 46 ||
+                    data[i].totalNilai <= 61) {
+                  skala = 'D';
+                } else if (data[i].totalNilai > 0 || data[i].totalNilai <= 46) {
+                  skala = 'E';
+                }
+              }
+            }
             return Stack(
               children: [
                 ListView.builder(
                   itemCount: data.length,
                   itemBuilder: (context, index) {
+                    tanggalNilai = data[index].tanggalNilai.toString();
                     return Material(
                       borderRadius: BorderRadius.circular(15),
                       child: InkWell(
                         onTap: () {
-                          // context.read<KriteriaBloc>().add(KriteriaGetById(
-                          //     int.parse(data[index].id.toString())));
-                          // Navigator.pushAndRemoveUntil(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => KriteriaEditPage(
-                          //       kriteria: int.parse(data[index].id.toString()),
-                          //     ),
-                          //   ),
-                          //   (route) => true, // Remove all previous routes
-                          // );
+                          context.read<NilaiBloc>().add(
+                              NIlaiEditByIdAndDateEvent(
+                                  data[index].id.toString(),
+                                  data[index]
+                                      .tanggalNilai
+                                      .toString()
+                                      .substring(0, 7)));
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const NilaiEditPage(),
+                            ),
+                            (route) => true, // Remove all previous routes
+                          );
                         },
                         onLongPress: () {
                           showDialog(
@@ -123,22 +152,50 @@ class _NilaiListByDateState extends State<NilaiListByDate> {
                           width: double.infinity,
                           child: ListTile(
                             minVerticalPadding: 20,
-                            title: Text(
-                              'ok',
-                              style: TextStyle(
-                                color: darkColor,
-                                fontSize: 20,
+                            leading: CircleAvatar(
+                              backgroundColor: primaryColor,
+
+                              radius:
+                                  16, // Adjust the radius to change the size of the circle
+                              child: Text(
+                                data[index]
+                                    .skala, // Replace 'A' with the desired alphabet
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            title: Container(
+                              margin: const EdgeInsets.only(bottom: 10),
+                              child: Text(
+                                'Nama :  ${data[index].namaLengkap.toString()}',
+                                style: TextStyle(
+                                  color: darkColor,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                            subtitle: Container(
+                              margin: const EdgeInsets.only(bottom: 10),
+                              child: Text(
+                                ' Keterangan : ${data[index].keterangan.toString()}',
+                                style: TextStyle(
+                                  color: darkColor,
+                                  fontSize: 14,
+                                ),
                               ),
                             ),
                             trailing: GestureDetector(
                               onTap: () {
                                 // Delete logic here
-                                // context.read<KriteriaBloc>().add(
-                                //       KriteriaDelete(int.parse(
-                                //         data[index].id.toString(),
-                                //       )),
-                                //     );
-                                // showCustomSnackBar(context, 'Kriteria deleted');
+
+                                context.read<NilaiBloc>().add(
+                                      NilaiDeleteByIdAndDateEvent(
+                                        data[index].id.toString(),
+                                        data[index]
+                                            .tanggalNilai
+                                            .toString()
+                                            .substring(0, 7),
+                                      ),
+                                    );
                               },
                               child: Icon(
                                 Icons.delete,
