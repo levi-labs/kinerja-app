@@ -6,7 +6,6 @@ import 'package:kinerja_app/models/nilai_form_model.dart';
 import 'package:kinerja_app/shared/shared_methods.dart';
 import 'package:kinerja_app/shared/theme.dart';
 import 'package:kinerja_app/ui/widget/banner_page.dart';
-import 'package:kinerja_app/ui/widget/floating_add_button.dart';
 import 'package:kinerja_app/ui/widget/sidebar.dart';
 
 class NilaiPage extends StatefulWidget {

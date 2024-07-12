@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kinerja_app/blocs/nilai/nilai_bloc.dart';
 import 'package:kinerja_app/models/indikator_form_model.dart';
 import 'package:kinerja_app/models/nilai_form_detail_model.dart';
-import 'package:kinerja_app/models/nilai_form_model.dart';
 
 import 'package:kinerja_app/models/pegawai_form_model.dart';
 import 'package:kinerja_app/shared/shared_methods.dart';
