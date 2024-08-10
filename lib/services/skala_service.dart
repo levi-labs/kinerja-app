@@ -61,7 +61,7 @@ class SkalaService {
         },
       );
       if (response.statusCode == 200) {
-        return jsonDecode(response.body)['message'];
+        return jsonDecode(response.body);
       }
       throw jsonDecode(response.body)['error'];
     } catch (e) {
@@ -84,6 +84,25 @@ class SkalaService {
         },
       );
 
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body)['message'];
+      }
+      throw jsonDecode(response.body)['error'];
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> deleteSkala(int id) async {
+    try {
+      final token = await AuthService().getToken();
+      var url = Uri.parse('$baseUrl/skala/$id');
+      var response = await http.delete(
+        url,
+        headers: {
+          'Authorization': token,
+        },
+      );
       if (response.statusCode == 200) {
         return jsonDecode(response.body)['message'];
       }

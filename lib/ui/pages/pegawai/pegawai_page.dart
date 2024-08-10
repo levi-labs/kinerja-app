@@ -119,9 +119,9 @@ class PegawaiCard extends StatelessWidget {
                       return AlertDialog(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15)),
-                        title: const Text('Delete Kriteria'),
+                        title: const Text('Delete Pegawai'),
                         content: const Text(
-                            'Are you sure you want to delete this Kriteria?'),
+                            'Are you sure you want to delete this Pegawai?'),
                         actions: <Widget>[
                           TextButton(
                             child: const Text('Cancel'),

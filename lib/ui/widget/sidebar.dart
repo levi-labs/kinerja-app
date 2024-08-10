@@ -4,6 +4,7 @@ import 'package:kinerja_app/blocs/dashboard/dashboard_bloc.dart';
 import 'package:kinerja_app/blocs/indikator/indikator_bloc.dart';
 import 'package:kinerja_app/blocs/kriteria/kriteria_bloc.dart';
 import 'package:kinerja_app/blocs/nilai/nilai_bloc.dart';
+import 'package:kinerja_app/blocs/pegawai/pegawai_bloc.dart';
 import 'package:kinerja_app/blocs/skala/skala_bloc.dart';
 import 'package:kinerja_app/shared/shared_methods.dart';
 import 'package:kinerja_app/shared/theme.dart';
@@ -70,26 +71,35 @@ class SideBar extends StatelessWidget {
                         )),
                   ),
                   ListTile(
+                      selectedColor: primaryColor,
+                      selected: state is DashboardInitial ? true : false,
+                      splashColor: primaryColor,
                       leading: const Icon(Icons.home),
                       title: const Text('Home'),
                       onTap: () {
                         context.read<DashboardBloc>().add(DashboardGet());
-                        Navigator.pushAndRemoveUntil(context,
-                            MaterialPageRoute(builder: (context) {
-                          return HomePage();
-                        }), (route) => false);
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomePage()),
+                        );
                       }),
                   ListTile(
+                      selectedColor: primaryColor,
+                      selected: state is PegawaiInitial ? true : false,
+                      splashColor: primaryColor,
                       leading: const Icon(Icons.person),
                       title: const Text('Pegawai'),
                       onTap: () {
-                        Navigator.pushAndRemoveUntil(context,
-                            MaterialPageRoute(builder: (context) {
-                          return const PegawaiPage();
-                        }), (route) => false);
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return const PegawaiPage();
+                          }),
+                        );
                       }),
                   if (state.user.username == 'admin') ...{
                     ListTile(
+                        splashColor: primaryColor,
                         leading: const Icon(Icons.format_list_bulleted),
                         title: const Text('Kriteria'),
                         onTap: () {
@@ -100,6 +110,7 @@ class SideBar extends StatelessWidget {
                           }), (route) => false);
                         }),
                     ListTile(
+                        splashColor: primaryColor,
                         leading: const Icon(Icons.point_of_sale),
                         title: const Text('Indikator'),
                         onTap: () {
@@ -112,6 +123,7 @@ class SideBar extends StatelessWidget {
                           }), (route) => false);
                         }),
                     ListTile(
+                        splashColor: primaryColor,
                         leading: const Icon(Icons.scale),
                         title: const Text('Skala'),
                         onTap: () {
@@ -123,11 +135,13 @@ class SideBar extends StatelessWidget {
                         }),
                   } else ...{
                     ListTile(
+                        splashColor: primaryColor,
                         leading: const Icon(Icons.person_4),
                         title: const Text('User'),
                         onTap: () {}),
                   },
                   ListTile(
+                      splashColor: primaryColor,
                       leading: const Icon(Icons.assignment),
                       title: const Text('Penilaian Kinerja'),
                       onTap: () {
@@ -138,6 +152,7 @@ class SideBar extends StatelessWidget {
                         }), (route) => false);
                       }),
                   ListTile(
+                      splashColor: primaryColor,
                       leading: const Icon(Icons.exit_to_app),
                       title: const Text('Sign Out'),
                       onTap: () {

@@ -46,6 +46,16 @@ class SkalaBloc extends Bloc<SkalaEvent, SkalaState> {
           emit(SkalaStateError(e.toString()));
         }
       }
+
+      if (event is SkalaEventDelete) {
+        try {
+          emit(SkalaStateLoading());
+          await SkalaService().deleteSkala(event.id);
+          emit(SkalaStateDeleted());
+        } catch (e) {
+          emit(SkalaStateError(e.toString()));
+        }
+      }
     });
   }
 }

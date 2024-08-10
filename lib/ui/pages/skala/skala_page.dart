@@ -5,6 +5,7 @@ import 'package:kinerja_app/models/skala_from_model.dart';
 import 'package:kinerja_app/shared/shared_methods.dart';
 import 'package:kinerja_app/shared/theme.dart';
 import 'package:kinerja_app/ui/pages/skala/skala_form_add.dart';
+import 'package:kinerja_app/ui/pages/skala/skala_form_edit.dart';
 import 'package:kinerja_app/ui/widget/sidebar.dart';
 
 class SkalaPage extends StatefulWidget {
@@ -43,6 +44,10 @@ class _SkalaPageState extends State<SkalaPage> {
                 if (state is SkalaStateLoaded) {
                   data = state.data;
                 }
+                if (state is SkalaStateDeleted) {
+                  context.read<SkalaBloc>().add(SkalaEventGet());
+                  return const Center(child: CircularProgressIndicator());
+                }
                 return CardSkala(data: data);
               },
             ),
@@ -56,7 +61,7 @@ class _SkalaPageState extends State<SkalaPage> {
               MaterialPageRoute(
                 builder: (context) => SkalaAddPage(),
               ),
-              (route) => false);
+              (route) => true);
         },
         backgroundColor: primaryColor,
         child: const Icon(Icons.add),
@@ -104,8 +109,53 @@ class CardSkala extends StatelessWidget {
               child: InkWell(
                 splashColor: primaryColor,
                 borderRadius: BorderRadius.circular(15),
-                onTap: () {},
-                onLongPress: () {},
+                onTap: () {
+                  context.read<SkalaBloc>().add(
+                      SkalaEventGetById(int.parse(data[index].id.toString())));
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SkalaEditPage(
+                        id: data[index].id.toString(),
+                      ),
+                    ),
+                    (route) => true,
+                  );
+                },
+                onLongPress: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15)),
+                        title: const Text('Delete Skala'),
+                        content: const Text(
+                            'Are you sure you want to delete this Skala?'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('Cancel'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                            child: const Text('Delete'),
+                            onPressed: () {
+                              // Delete logic here
+                              context.read<SkalaBloc>().add(
+                                    SkalaEventDelete(
+                                      int.parse(data[index].id.toString()),
+                                    ),
+                                  );
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

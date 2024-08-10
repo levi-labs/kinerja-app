@@ -117,7 +117,7 @@ class _IndikatorPageState extends State<IndikatorPage> {
                   FloatingAddButton(
                     onPress: () {
                       Navigator.pushNamedAndRemoveUntil(
-                          context, '/kriteria-add', (route) => true);
+                          context, '/indikator-add', (route) => true);
                     },
                   )
                 ],

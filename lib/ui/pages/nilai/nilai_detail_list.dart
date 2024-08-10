@@ -6,7 +6,6 @@ import 'package:kinerja_app/shared/shared_methods.dart';
 import 'package:kinerja_app/shared/theme.dart';
 import 'package:kinerja_app/ui/pages/auth/sign_in_page.dart';
 import 'package:kinerja_app/ui/pages/nilai/nilai_detail_pegawai.dart';
-import 'package:kinerja_app/ui/pages/nilai/nilai_form_edit.dart';
 import 'package:kinerja_app/ui/widget/floating_add_button.dart';
 import 'package:kinerja_app/ui/widget/sidebar.dart';
 

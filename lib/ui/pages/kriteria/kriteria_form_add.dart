@@ -53,8 +53,14 @@ class KriteriaFormAdd extends StatelessWidget {
 
           return Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Container(
+                  margin: const EdgeInsets.all(20),
+                  color: whiteColor,
+                  child: const Text('Form Kriteria',
+                      style: TextStyle(fontSize: 25)),
+                ),
                 Container(
                   padding: const EdgeInsets.all(20),
                   margin: const EdgeInsets.all(20),
