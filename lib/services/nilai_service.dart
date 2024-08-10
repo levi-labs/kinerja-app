@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:kinerja_app/models/nilai_detail_model.dart';
 import 'package:kinerja_app/models/nilai_form_by_date_model.dart';
 import 'package:kinerja_app/models/nilai_form_create_model.dart';
 import 'package:kinerja_app/models/nilai_form_edit_model.dart';
@@ -58,7 +59,6 @@ class NilaiService {
   Future<List<NilaiCreateFormModel>> createNilaiByDate(
       String tanggalNilai) async {
     try {
-      print(tanggalNilai);
       var url = Uri.parse('$baseUrl/nilai/create/$tanggalNilai');
       var token = await AuthService().getToken();
       var response = await http.get(
@@ -73,14 +73,10 @@ class NilaiService {
         List<NilaiCreateFormModel> data = [
           NilaiCreateFormModel.fromJson(jsonData)
         ];
-
-        // print(jsonDecode(response.body));
         return data;
       }
       throw jsonDecode(response.body)['error'];
     } catch (e) {
-      // print(e);
-
       rethrow;
     }
   }
@@ -171,6 +167,29 @@ class NilaiService {
       );
       if (response.statusCode == 200) {
         return jsonDecode(response.body)['message'];
+      }
+      throw jsonDecode(response.body)['error'];
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<NilaiDetailModel>> getNilaiByIdAndDate(
+      String idPegawai, String tanggalNilai) async {
+    try {
+      var url = Uri.parse('$baseUrl/nilai/detail/$idPegawai/$tanggalNilai');
+      var token = await AuthService().getToken();
+      var response = await http.get(
+        url,
+        headers: {
+          'Authorization': token,
+        },
+      );
+      if (response.statusCode == 200) {
+        // print(jsonDecode(response.body)['data']);
+        Map<String, dynamic> jsonData = jsonDecode(response.body);
+        List<NilaiDetailModel> data = [NilaiDetailModel.fromJson(jsonData)];
+        return data;
       }
       throw jsonDecode(response.body)['error'];
     } catch (e) {

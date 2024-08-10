@@ -53,7 +53,7 @@ class _SignInPageState extends State<SignInPage> {
                 height: 200,
                 width: 200,
                 alignment: Alignment.center,
-                child: Image.asset('assets/image_ocbc.png'),
+                child: Image.asset('assets/fatima-logo.png'),
               ),
               const Text(
                 'Sign In \nPerformance System',

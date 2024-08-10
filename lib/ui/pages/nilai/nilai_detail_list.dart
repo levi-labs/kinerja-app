@@ -5,6 +5,7 @@ import 'package:kinerja_app/blocs/nilai/nilai_bloc.dart';
 import 'package:kinerja_app/shared/shared_methods.dart';
 import 'package:kinerja_app/shared/theme.dart';
 import 'package:kinerja_app/ui/pages/auth/sign_in_page.dart';
+import 'package:kinerja_app/ui/pages/nilai/nilai_detail_pegawai.dart';
 import 'package:kinerja_app/ui/pages/nilai/nilai_form_edit.dart';
 import 'package:kinerja_app/ui/widget/floating_add_button.dart';
 import 'package:kinerja_app/ui/widget/sidebar.dart';
@@ -55,23 +56,23 @@ class _NilaiListByDateState extends State<NilaiListByDate> {
 
           if (state is NilaiLoadedByDateState) {
             data = state.data;
-            for (var i = 0; i < data.length; i++) {
-              if (data.isNotEmpty) {
-                if (data[i].totalNilai >= 86) {
-                  skala = 'A';
-                } else if (data[i].totalNilai > 76 || data[i].totalNilai < 86) {
-                  skala = 'B';
-                } else if (data[i].totalNilai > 61 ||
-                    data[i].totalNilai <= 76) {
-                  skala = 'C';
-                } else if (data[i].totalNilai > 46 ||
-                    data[i].totalNilai <= 61) {
-                  skala = 'D';
-                } else if (data[i].totalNilai > 0 || data[i].totalNilai <= 46) {
-                  skala = 'E';
-                }
-              }
-            }
+            // for (var i = 0; i < data.length; i++) {
+            //   if (data.isNotEmpty) {
+            //     if (data[i].totalNilai >= 86) {
+            //       skala = 'A';
+            //     } else if (data[i].totalNilai > 76 || data[i].totalNilai < 86) {
+            //       skala = 'B';
+            //     } else if (data[i].totalNilai > 61 ||
+            //         data[i].totalNilai <= 76) {
+            //       skala = 'C';
+            //     } else if (data[i].totalNilai > 46 ||
+            //         data[i].totalNilai <= 61) {
+            //       skala = 'D';
+            //     } else if (data[i].totalNilai > 0 || data[i].totalNilai <= 46) {
+            //       skala = 'E';
+            //     }
+            //   }
+            // }
             return Stack(
               children: [
                 ListView.builder(
@@ -82,19 +83,44 @@ class _NilaiListByDateState extends State<NilaiListByDate> {
                       borderRadius: BorderRadius.circular(15),
                       child: InkWell(
                         onTap: () {
+                          // context.read<NilaiBloc>().add(
+                          //     NIlaiEditByIdAndDateEvent(
+                          //         data[index].id.toString(),
+                          //         data[index]
+                          //             .tanggalNilai
+                          //             .toString()
+                          //             .substring(0, 7)));
+                          // Navigator.pushAndRemoveUntil(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => const NilaiEditPage(),
+                          //   ),
+                          //   (route) => true, // Remove all previous routes
+                          // );
+
                           context.read<NilaiBloc>().add(
-                              NIlaiEditByIdAndDateEvent(
+                                NilaiDetailByIdAndDateEvent(
                                   data[index].id.toString(),
                                   data[index]
                                       .tanggalNilai
                                       .toString()
-                                      .substring(0, 7)));
-                          Navigator.pushAndRemoveUntil(
+                                      .substring(0, 7),
+                                ),
+                              );
+
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const NilaiEditPage(),
+                              builder: (context) => NilaiDetailPage(
+                                namaPegawai: data[index].namaLengkap.toString(),
+                                skala: data[index].skala.toString(),
+                                keterangan: data[index].keterangan.toString(),
+                                totalNilai: data[index]
+                                    .totalNilai
+                                    .toString()
+                                    .substring(0, 2),
+                              ),
                             ),
-                            (route) => true, // Remove all previous routes
                           );
                         },
                         onLongPress: () {

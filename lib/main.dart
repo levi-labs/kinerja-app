@@ -5,6 +5,7 @@ import 'package:kinerja_app/blocs/dashboard/dashboard_bloc.dart';
 import 'package:kinerja_app/blocs/indikator/indikator_bloc.dart';
 import 'package:kinerja_app/blocs/kriteria/kriteria_bloc.dart';
 import 'package:kinerja_app/blocs/nilai/nilai_bloc.dart';
+import 'package:kinerja_app/blocs/pegawai/pegawai_bloc.dart';
 import 'package:kinerja_app/blocs/skala/skala_bloc.dart';
 import 'package:kinerja_app/ui/pages/indikator/indikator_form_add.dart';
 import 'package:kinerja_app/ui/pages/indikator/indikator_page.dart';
@@ -14,6 +15,8 @@ import 'package:kinerja_app/ui/pages/loading_screen/splash_screen.dart';
 import 'package:kinerja_app/ui/pages/nilai/nilai_detail_list.dart';
 import 'package:kinerja_app/ui/pages/nilai/nilai_form_add.dart';
 import 'package:kinerja_app/ui/pages/nilai/nilai_page.dart';
+import 'package:kinerja_app/ui/pages/pegawai/pegawai_form_add.dart';
+import 'package:kinerja_app/ui/pages/pegawai/pegawai_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -44,6 +47,9 @@ class _MyAppState extends State<MyApp> {
         BlocProvider<IndikatorBloc>(
           create: (context) => IndikatorBloc()..add(GetEventIndikator()),
         ),
+        BlocProvider<PegawaiBloc>(
+          create: (context) => PegawaiBloc()..add(PegawaiLoadedEvent()),
+        ),
 
         BlocProvider<SkalaBloc>(
           create: (context) => SkalaBloc()..add(SkalaEventGet()),
@@ -68,6 +74,8 @@ class _MyAppState extends State<MyApp> {
           '/nilai': (context) => const NilaiPage(),
           '/nilai-add': (context) => const NilaiAddPage(),
           '/nilai-by-date': (context) => const NilaiListByDate(),
+          '/pegawai': (context) => const PegawaiPage(),
+          '/pegawai-add': (context) => const PegawaiAddPage(),
         },
       ),
     );

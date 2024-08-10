@@ -67,6 +67,15 @@ class NilaiUpdateDataEvent extends NilaiEvent {
   List<Object> get props => [indikatorId, nilaiId, inputNilai];
 }
 
+class NilaiDetailByIdAndDateEvent extends NilaiEvent {
+  final String idPegawai;
+  final String date;
+  const NilaiDetailByIdAndDateEvent(this.idPegawai, this.date);
+
+  @override
+  List<Object> get props => [idPegawai, date];
+}
+
 class NilaiDeleteByIdAndDateEvent extends NilaiEvent {
   final String idPegawai;
   final String date;

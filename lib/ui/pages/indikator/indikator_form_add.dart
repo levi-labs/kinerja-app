@@ -34,18 +34,6 @@ class _IndikatorAddPageState extends State<IndikatorAddPage> {
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    // final kriteria = context.read<KriteriaBloc>().state;
-
-    // if (kriteria is KriteriaLoaded) {
-    //   kriterias = kriteria.kriteria;
-    //   print(kriterias);
-    // }
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(

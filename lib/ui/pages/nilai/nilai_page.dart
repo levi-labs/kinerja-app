@@ -28,9 +28,12 @@ class _NilaiPageState extends State<NilaiPage> {
       ),
       body: Column(
         children: [
-          const BannerWidgetPage(
-            title: 'Daftar Penilaian Kinerja',
-            image: 'assets/nilai.png',
+          const SizedBox(
+            height: 300,
+            child: BannerWidgetPage(
+              title: 'Daftar Penilaian Kinerja',
+              image: 'assets/nilai.png',
+            ),
           ),
           Expanded(
             child: BlocConsumer<NilaiBloc, NilaiState>(
@@ -63,7 +66,7 @@ class _NilaiPageState extends State<NilaiPage> {
                                   .tanggalNilai
                                   .toString()
                                   .substring(0, 7)));
-                          print(data[index].tanggalNilai);
+
                           Navigator.pushNamed(context, '/nilai-by-date');
                         },
                         onLongPress: () {},

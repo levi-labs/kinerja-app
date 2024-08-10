@@ -18,7 +18,7 @@ class PegawaiCreatedEvent extends PegawaiEvent {
 }
 
 class PegawaiShowByIdEvent extends PegawaiEvent {
-  final int id;
+  final String id;
   const PegawaiShowByIdEvent(this.id);
 
   @override
@@ -34,7 +34,7 @@ class PegawaiUpdatedEvent extends PegawaiEvent {
 }
 
 class PegawaiDeletedEvent extends PegawaiEvent {
-  final int id;
+  final String id;
   const PegawaiDeletedEvent(this.id);
 
   @override

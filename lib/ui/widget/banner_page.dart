@@ -16,7 +16,14 @@ class BannerWidgetPage extends StatelessWidget {
       width: double.infinity,
       height: 400,
       decoration: BoxDecoration(
-        color: primaryColor,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            primaryColor, // Light blue
+            const Color(0xFF1A237E), // Deep blue
+          ],
+        ),
         borderRadius: const BorderRadius.only(
           bottomRight: Radius.circular(
             80,
@@ -28,11 +35,24 @@ class BannerWidgetPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Image.asset(
-              image,
-              fit: BoxFit.fill,
-              width: 350,
-              height: 350,
+            const SizedBox(
+              height: 20,
+            ),
+            Center(
+              child: Transform.scale(
+                scale: 1.8,
+                child: Container(
+                  width: 200,
+                  height: 200,
+                  child: Image.asset(
+                    image,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
             ),
             Text(title,
                 style: TextStyle(

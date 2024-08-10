@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:kinerja_app/models/nilai_detail_list_model.dart';
+import 'package:kinerja_app/models/nilai_detail_model.dart';
 import 'package:kinerja_app/models/nilai_form_by_date_model.dart';
 import 'package:kinerja_app/models/nilai_form_edit_model.dart';
 import 'package:kinerja_app/models/nilai_form_model.dart';
@@ -72,6 +74,16 @@ class NilaiBloc extends Bloc<NilaiEvent, NilaiState> {
             event.inputNilai,
           );
           emit(NilaiUpdateSuccessState());
+        } catch (e) {
+          emit(NilaiErrorState(e.toString()));
+        }
+      }
+      if (event is NilaiDetailByIdAndDateEvent) {
+        emit(NilaiLoadingState());
+        try {
+          final data = await NilaiService()
+              .getNilaiByIdAndDate(event.idPegawai, event.date);
+          emit(NilaiLoadedDetailState(data));
         } catch (e) {
           emit(NilaiErrorState(e.toString()));
         }

@@ -22,13 +22,16 @@ class _SkalaPageState extends State<SkalaPage> {
     return Scaffold(
       backgroundColor: whiteColor,
       drawer: const SideBar(),
-      appBar: AppBar(
-        title: const Text('Skala'),
-        backgroundColor: primaryColor,
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Skala'),
+      //   backgroundColor: primaryColor,
+      // ),
       body: Column(
         children: [
-          const BannerSkala(),
+          const SizedBox(
+            height: 350,
+            child: BannerSkala(),
+          ),
           Expanded(
             child: BlocConsumer<SkalaBloc, SkalaState>(
               listener: (context, state) {
@@ -73,79 +76,83 @@ class CardSkala extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
+        padding: EdgeInsets.zero,
+        shrinkWrap: true,
         scrollDirection: Axis.vertical,
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 250,
+          maxCrossAxisExtent: 220,
           childAspectRatio: 1,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 12,
+          crossAxisSpacing: 1,
+          mainAxisSpacing: 1,
         ),
         itemCount: data.length,
         itemBuilder: (context, index) {
-          return Material(
-              borderRadius: BorderRadius.circular(15),
+          return Container(
+            margin: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+                color: whiteColor,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.grey,
+                    blurRadius: 0.5,
+                    offset: Offset(0, 3),
+                  ),
+                ]),
+            child: Material(
+              color: Colors.transparent,
               child: InkWell(
+                splashColor: primaryColor,
                 borderRadius: BorderRadius.circular(15),
                 onTap: () {},
                 onLongPress: () {},
-                child: Container(
-                  margin: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      color: whiteColor,
-                      borderRadius: BorderRadius.circular(15),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.grey,
-                          blurRadius: 0.5,
-                          offset: Offset(0, 3),
-                        ),
-                      ]),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 80,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 101, 170, 244),
-                          borderRadius: BorderRadius.circular(100),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.grey,
-                              blurRadius: 0.5,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        child: Center(
-                            child: Text(
-                          data[index].nama,
-                          style: TextStyle(
-                              color: whiteColor,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold),
-                        )),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 80,
+                      height: 80,
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 101, 170, 244),
+                        borderRadius: BorderRadius.circular(100),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.grey,
+                            blurRadius: 0.5,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(data[index].keterangan,
-                          style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold)),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(data[index].interval,
-                          style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold)),
-                    ],
-                  ),
+                      child: Center(
+                          child: Text(
+                        data[index].nama,
+                        style: TextStyle(
+                            color: whiteColor,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold),
+                      )),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(data[index].keterangan,
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold)),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(data[index].interval,
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold)),
+                  ],
                 ),
-              ));
+              ),
+            ),
+          );
         });
   }
 }
@@ -157,33 +164,74 @@ class BannerSkala extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 400,
-      decoration: BoxDecoration(
-        color: primaryColor,
-        borderRadius: const BorderRadius.only(
-          bottomRight: Radius.circular(
-            80,
+    return SafeArea(
+      minimum: EdgeInsets.zero,
+      top: false,
+      bottom: false,
+      child: Container(
+        width: double.infinity,
+        height: 300,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              primaryColor, // Light blue
+              const Color(0xFF1A237E), // Deep blue
+            ],
+          ),
+          borderRadius: const BorderRadius.only(
+            bottomRight: Radius.circular(
+              80,
+            ),
           ),
         ),
-      ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
           children: [
-            Image.asset(
-              'assets/scales.png',
-              fit: BoxFit.fill,
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Transform.scale(
+                      scale: 1.8,
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height * 0.05,
+                          top: MediaQuery.of(context).size.height * 0.1,
+                        ),
+                        width: 200,
+                        height: 130,
+                        child: Image.asset(
+                          'assets/scales.png',
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  Text('Skala Penilaian Kinerja Kerja',
+                      style: TextStyle(
+                        color: whiteColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      )),
+                ],
+              ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            Text('Skala Penilaian Kinerja Kerja',
-                style: TextStyle(
-                  color: whiteColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+            Positioned(
+                top: MediaQuery.of(context).size.height * 0.05,
+                left: MediaQuery.of(context).size.width * 0.01,
+                child: TextButton(
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  child: Icon(
+                    Icons.menu,
+                    color: whiteColor,
+                  ),
                 )),
           ],
         ),

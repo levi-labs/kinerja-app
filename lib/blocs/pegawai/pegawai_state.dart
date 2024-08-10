@@ -38,6 +38,8 @@ class PegawaiCreatedSuccessState extends PegawaiState {}
 
 class PegawaiUpdatedSuccessState extends PegawaiState {}
 
+class PegawaiDeletedSuccessState extends PegawaiState {}
+
 class PegawaiErrorState extends PegawaiState {
   final String error;
 

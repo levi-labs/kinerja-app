@@ -12,6 +12,7 @@ import 'package:kinerja_app/ui/pages/indikator/indikator_page.dart';
 import 'package:kinerja_app/ui/pages/kriteria/kriteria_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kinerja_app/ui/pages/nilai/nilai_page.dart';
+import 'package:kinerja_app/ui/pages/pegawai/pegawai_page.dart';
 import 'package:kinerja_app/ui/pages/skala/skala_page.dart';
 
 class SideBar extends StatelessWidget {
@@ -50,7 +51,14 @@ class SideBar extends StatelessWidget {
                 children: [
                   UserAccountsDrawerHeader(
                     decoration: BoxDecoration(
-                      color: primaryColor,
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          primaryColor, // Light blue
+                          const Color(0xFF1A237E), // Deep blue
+                        ],
+                      ),
                     ),
                     accountName: Text(
                       state.user.nama.toString(),
@@ -60,12 +68,6 @@ class SideBar extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 15,
                         )),
-                    currentAccountPicture: CircleAvatar(
-                      child: ClipRRect(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(50.0)),
-                          child: Image.asset('assets/image_ocbc.png')),
-                    ),
                   ),
                   ListTile(
                       leading: const Icon(Icons.home),
@@ -80,7 +82,12 @@ class SideBar extends StatelessWidget {
                   ListTile(
                       leading: const Icon(Icons.person),
                       title: const Text('Pegawai'),
-                      onTap: () {}),
+                      onTap: () {
+                        Navigator.pushAndRemoveUntil(context,
+                            MaterialPageRoute(builder: (context) {
+                          return const PegawaiPage();
+                        }), (route) => false);
+                      }),
                   if (state.user.username == 'admin') ...{
                     ListTile(
                         leading: const Icon(Icons.format_list_bulleted),

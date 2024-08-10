@@ -43,11 +43,10 @@ class _KriteriaEditPageState extends State<KriteriaEditPage> {
       ),
       body: BlocConsumer<KriteriaBloc, KriteriaState>(
         listener: (context, state) {
-          // TODO: implement listener
           if (state is KriteriaUpdateSuccess) {
             context.read<KriteriaBloc>().add(KriteriaGet());
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => KriteriaPage()));
+                MaterialPageRoute(builder: (context) => const KriteriaPage()));
             showCustomSnackBar(context, 'Kriteria Success');
           }
 

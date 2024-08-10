@@ -21,6 +21,7 @@ class PegawaiService {
             .toList();
         return data;
       }
+
       throw jsonDecode(response.body)['error'];
     } catch (e) {
       rethrow;
@@ -34,15 +35,15 @@ class PegawaiService {
 
       var response = await http.post(
         url,
-        body: jsonEncode(data),
+        body: jsonEncode(data.toJson()),
         headers: {
           'Authorization': token,
           'Content-Type': 'application/json',
         },
       );
 
-      if (response.statusCode == 200) {
-        return jsonDecode(response.body)['message'];
+      if (response.statusCode == 201) {
+        return jsonDecode(response.body);
       }
 
       throw jsonDecode(response.body)['error'];
@@ -51,7 +52,7 @@ class PegawaiService {
     }
   }
 
-  Future<PegawaiFormModel> getPegawaiById(int id) async {
+  Future<PegawaiFormModel> getPegawaiById(String id) async {
     try {
       var url = Uri.parse('$baseUrl/pegawai/$id');
       var token = await AuthService().getToken();
@@ -84,10 +85,29 @@ class PegawaiService {
         },
       );
 
+      if (response.statusCode == 201) {
+        return jsonDecode(response.body);
+      }
+
+      throw jsonDecode(response.body)['error'];
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> deletePegawai(String id) async {
+    try {
+      var url = Uri.parse('$baseUrl/pegawai/$id');
+      var token = await AuthService().getToken();
+      var response = await http.delete(
+        url,
+        headers: {
+          'Authorization': token,
+        },
+      );
       if (response.statusCode == 200) {
         return jsonDecode(response.body)['message'];
       }
-
       throw jsonDecode(response.body)['error'];
     } catch (e) {
       rethrow;

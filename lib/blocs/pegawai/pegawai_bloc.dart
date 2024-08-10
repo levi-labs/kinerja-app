@@ -41,12 +41,22 @@ class PegawaiBloc extends Bloc<PegawaiEvent, PegawaiState> {
 
       if (event is PegawaiUpdatedEvent) {
         emit(PegawaiLoadingState());
-        // try {
-        //   await PegawaiService().createPegawai(event.data);
-        //   emit(PegawaiUpdatedSuccessState());
-        // } catch (e) {
-        //   emit(PegawaiErrorState(e.toString()));
-        // }
+        try {
+          await PegawaiService().updatePegawai(event.data);
+          emit(PegawaiUpdatedSuccessState());
+        } catch (e) {
+          emit(PegawaiErrorState(e.toString()));
+        }
+      }
+
+      if (event is PegawaiDeletedEvent) {
+        emit(PegawaiLoadingState());
+        try {
+          await PegawaiService().deletePegawai(event.id);
+          emit(PegawaiDeletedSuccessState());
+        } catch (e) {
+          emit(PegawaiErrorState(e.toString()));
+        }
       }
     });
   }

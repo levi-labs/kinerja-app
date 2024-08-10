@@ -35,7 +35,6 @@ class KriteriaFormAdd extends StatelessWidget {
       ),
       body: BlocConsumer<KriteriaBloc, KriteriaState>(
         listener: (context, state) {
-          // TODO: implement listener
           if (state is KriteriaAddSuccess) {
             context.read<KriteriaBloc>().add(KriteriaGet());
             Navigator.pushReplacement(context,
