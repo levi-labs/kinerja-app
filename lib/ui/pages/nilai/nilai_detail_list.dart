@@ -244,6 +244,8 @@ class _NilaiListByDateState extends State<NilaiListByDate> {
                 const SizedBox(height: 100),
                 FloatingAddButton(
                   onPress: () {
+                    context.read<NilaiBloc>().add(NilaiCreateByDateEvent(
+                        data[0].tanggalNilai.toString()));
                     Navigator.pushNamedAndRemoveUntil(
                         context, '/nilai-add', (route) => true);
                   },

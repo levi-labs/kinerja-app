@@ -82,7 +82,7 @@ class _PegawaiAddPageState extends State<PegawaiAddPage> {
           if (state is PegawaiCreatedSuccessState) {
             Navigator.pop(context);
             context.read<PegawaiBloc>().add(PegawaiLoadedEvent());
-            showCustomSnackBar(context, 'Pegawai Success Added');
+            showCustomSnackBar(context, 'Pegawai Success ditambahkan');
           }
         },
         builder: (context, state) {

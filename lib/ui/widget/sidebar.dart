@@ -97,7 +97,7 @@ class SideBar extends StatelessWidget {
                           }),
                         );
                       }),
-                  if (state.user.username == 'admin') ...{
+                  if (state.user.aksesLevel == 'staf') ...{
                     ListTile(
                         splashColor: primaryColor,
                         leading: const Icon(Icons.format_list_bulleted),

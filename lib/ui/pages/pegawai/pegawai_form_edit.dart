@@ -87,7 +87,7 @@ class _PegawaiEditPageState extends State<PegawaiEditPage> {
           if (state is PegawaiUpdatedSuccessState) {
             Navigator.pop(context);
             context.read<PegawaiBloc>().add(PegawaiLoadedEvent());
-            showCustomSnackBar(context, 'Pegawai Success Updated');
+            showCustomSnackBar(context, 'Pegawai Success diupdate');
           }
         },
         builder: (context, state) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kinerja_app/blocs/auth/auth_bloc_bloc.dart';
 import 'package:kinerja_app/blocs/pegawai/pegawai_bloc.dart';
 import 'package:kinerja_app/models/pegawai_form_model.dart';
 import 'package:kinerja_app/shared/shared_methods.dart';
@@ -55,13 +56,20 @@ class _PegawaiPageState extends State<PegawaiPage> {
           )
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamedAndRemoveUntil(
-              context, '/pegawai-add', (route) => true);
+      floatingActionButton: BlocBuilder<AuthBloc, AuthBlocState>(
+        builder: (context, state) {
+          if (state is AuthLoginSuccess && state.user.aksesLevel == 'staf') {
+            return FloatingActionButton(
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/pegawai-add', (route) => true);
+              },
+              backgroundColor: Colors.blue, // Customize the background color
+              child: const Icon(Icons.add),
+            );
+          }
+          return Container();
         },
-        backgroundColor: Colors.blue, // Customize the background color
-        child: const Icon(Icons.add),
       ),
     );
   }

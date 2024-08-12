@@ -74,7 +74,7 @@ class _MyAppState extends State<MyApp> {
           '/nilai': (context) => const NilaiPage(),
           '/nilai-add': (context) => const NilaiAddPage(),
           '/nilai-by-date': (context) => const NilaiListByDate(),
-          '/pegawai': (context) => const PegawaiPage(),
+          '/pegawai': (context) => PegawaiPage(),
           '/pegawai-add': (context) => const PegawaiAddPage(),
         },
       ),

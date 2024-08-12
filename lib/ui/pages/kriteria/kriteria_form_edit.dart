@@ -47,7 +47,7 @@ class _KriteriaEditPageState extends State<KriteriaEditPage> {
             context.read<KriteriaBloc>().add(KriteriaGet());
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => const KriteriaPage()));
-            showCustomSnackBar(context, 'Kriteria Success');
+            showCustomSnackBar(context, 'Kriteria Success diupdate');
           }
 
           if (state is KriteriaFailed) {

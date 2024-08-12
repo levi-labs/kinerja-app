@@ -61,7 +61,7 @@ class _IndikatorAddPageState extends State<IndikatorAddPage> {
                       builder: (context) => IndikatorGroup(
                             idKriteria: int.parse(selectedKriteria.toString()),
                           )));
-              showCustomSnackBar(context, 'Indikator Success Added');
+              showCustomSnackBar(context, 'Indikator Success ditambahkan');
             }
           },
           builder: (context, state) {

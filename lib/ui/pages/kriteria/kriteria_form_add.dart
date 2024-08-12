@@ -39,7 +39,7 @@ class KriteriaFormAdd extends StatelessWidget {
             context.read<KriteriaBloc>().add(KriteriaGet());
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => KriteriaPage()));
-            showCustomSnackBar(context, 'Kriteria Success');
+            showCustomSnackBar(context, 'Kriteria Success ditambahkan');
           }
 
           if (state is KriteriaFailed) {

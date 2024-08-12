@@ -78,7 +78,7 @@ class _IndikatorEditPageState extends State<IndikatorEditPage> {
               // context.read<IndikatorBloc>().add(GetEventIndikatorByKriteria(
               //     int.parse(selectedKriteria.toString())));
 
-              showCustomSnackBar(context, 'Indikator Success Updated');
+              showCustomSnackBar(context, 'Indikator Success diupdate');
             }
           },
           builder: (context, state) {

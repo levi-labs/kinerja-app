@@ -69,7 +69,7 @@ class _NilaiEditPageState extends State<NilaiEditPage> {
           if (state is NilaiUpdateSuccessState) {
             context.read<NilaiBloc>().add(NilaiLoadedEvent());
             Navigator.popAndPushNamed(context, '/nilai');
-            showCustomSnackBar(context, 'Data Nilai Berhasil');
+            showCustomSnackBar(context, 'Data Nilai Berhasil Diupdate');
           }
         },
         builder: (context, state) {

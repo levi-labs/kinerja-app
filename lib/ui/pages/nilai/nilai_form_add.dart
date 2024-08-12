@@ -5,6 +5,7 @@ import 'package:kinerja_app/models/indikator_form_model.dart';
 
 import 'package:kinerja_app/models/pegawai_form_model.dart';
 import 'package:kinerja_app/shared/shared_methods.dart';
+import 'package:kinerja_app/ui/pages/nilai/nilai_page.dart';
 
 import 'package:kinerja_app/ui/widget/sidebar.dart';
 
@@ -50,7 +51,8 @@ class _NilaiAddPageState extends State<NilaiAddPage> {
         leading: IconButton(
           onPressed: () {
             context.read<NilaiBloc>().add(NilaiLoadedEvent());
-            Navigator.pop(context);
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const NilaiPage()));
           },
           icon: const Icon(Icons.arrow_back),
         ),
@@ -62,9 +64,10 @@ class _NilaiAddPageState extends State<NilaiAddPage> {
             // print(state.e);
           }
           if (state is NilaiCreateSuccessState) {
-            Navigator.pop(context);
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const NilaiPage()));
             context.read<NilaiBloc>().add(NilaiLoadedEvent());
-            showCustomSnackBar(context, 'Data Nilai Berhasil');
+            showCustomSnackBar(context, 'Data Nilai Berhasil Di Simpan');
           }
         },
         builder: (context, state) {
