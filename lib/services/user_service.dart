@@ -72,7 +72,7 @@ class UserService {
     }
   }
 
-  Future<UserModel> getUserById(int id) async {
+  Future<UserModel> getUserById(String id) async {
     try {
       var url = Uri.parse('$baseUrl/user/$id');
       var token = await AuthService().getToken();
