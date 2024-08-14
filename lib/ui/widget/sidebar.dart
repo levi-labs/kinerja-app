@@ -15,6 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kinerja_app/ui/pages/nilai/nilai_page.dart';
 import 'package:kinerja_app/ui/pages/pegawai/pegawai_page.dart';
 import 'package:kinerja_app/ui/pages/skala/skala_page.dart';
+import 'package:kinerja_app/ui/pages/user/user_page.dart';
 
 class SideBar extends StatelessWidget {
   const SideBar({super.key});
@@ -136,9 +137,14 @@ class SideBar extends StatelessWidget {
                   } else ...{
                     ListTile(
                         splashColor: primaryColor,
-                        leading: const Icon(Icons.person_4),
+                        leading: const Icon(Icons.people_rounded),
                         title: const Text('User'),
-                        onTap: () {}),
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(context,
+                              MaterialPageRoute(builder: (context) {
+                            return UserPage();
+                          }), (route) => false);
+                        }),
                   },
                   ListTile(
                       splashColor: primaryColor,

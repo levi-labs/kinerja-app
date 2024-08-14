@@ -46,6 +46,15 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           emit(UserErrorState(e.toString()));
         }
       }
+      if (event is DeleteUserEvent) {
+        emit(UserLoadingState());
+        try {
+          await UserService().deleteUser(event.id.toString());
+          emit(UserDeleteSuccessState());
+        } catch (e) {
+          emit(UserErrorState(e.toString()));
+        }
+      }
     });
   }
 }

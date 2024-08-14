@@ -42,7 +42,7 @@ class UserService {
           'Content-Type': 'application/json',
         },
       );
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         return jsonDecode(response.body);
       }
       throw jsonDecode(response.body)['error'];
@@ -113,9 +113,9 @@ class UserService {
     }
   }
 
-  Future<void> deleteUser(UserModel data) async {
+  Future<void> deleteUser(String id) async {
     try {
-      var url = Uri.parse('$baseUrl/user/${data.id}');
+      var url = Uri.parse('$baseUrl/user/${id}');
       var token = await AuthService().getToken();
       var response = await http.delete(
         url,

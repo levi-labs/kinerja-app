@@ -84,6 +84,7 @@ class UserModel {
         "akses_level": aksesLevel,
         "nama": nama,
         "email": email,
+        "password": password,
         "email_verified_at": emailVerifiedAt,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),

@@ -7,6 +7,7 @@ import 'package:kinerja_app/blocs/kriteria/kriteria_bloc.dart';
 import 'package:kinerja_app/blocs/nilai/nilai_bloc.dart';
 import 'package:kinerja_app/blocs/pegawai/pegawai_bloc.dart';
 import 'package:kinerja_app/blocs/skala/skala_bloc.dart';
+import 'package:kinerja_app/blocs/user/user_bloc.dart';
 import 'package:kinerja_app/ui/pages/indikator/indikator_form_add.dart';
 import 'package:kinerja_app/ui/pages/indikator/indikator_page.dart';
 import 'package:kinerja_app/ui/pages/kriteria/kriteria_form_add.dart';
@@ -17,6 +18,8 @@ import 'package:kinerja_app/ui/pages/nilai/nilai_form_add.dart';
 import 'package:kinerja_app/ui/pages/nilai/nilai_page.dart';
 import 'package:kinerja_app/ui/pages/pegawai/pegawai_form_add.dart';
 import 'package:kinerja_app/ui/pages/pegawai/pegawai_page.dart';
+import 'package:kinerja_app/ui/pages/user/user_form_add.dart';
+import 'package:kinerja_app/ui/pages/user/user_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -57,7 +60,11 @@ class _MyAppState extends State<MyApp> {
 
         BlocProvider<NilaiBloc>(
           create: (context) => NilaiBloc()..add(NilaiLoadedEvent()),
-        )
+        ),
+
+        BlocProvider<UserBloc>(
+          create: (context) => UserBloc()..add(GetUserEvent()),
+        ),
 
         // BlocProvider<KriteriaBloc>(
         //   create: (context) => KriteriaBloc()..add(KriteriaGet()),
@@ -76,6 +83,8 @@ class _MyAppState extends State<MyApp> {
           '/nilai-by-date': (context) => const NilaiListByDate(),
           '/pegawai': (context) => PegawaiPage(),
           '/pegawai-add': (context) => const PegawaiAddPage(),
+          '/user': (context) => UserPage(),
+          '/user-add': (context) => UserAddPage(),
         },
       ),
     );

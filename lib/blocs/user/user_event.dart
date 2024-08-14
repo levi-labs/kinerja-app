@@ -37,10 +37,10 @@ class UpdateUserEvent extends UserEvent {
 }
 
 class DeleteUserEvent extends UserEvent {
-  final UserModel data;
+  final String id;
 
-  const DeleteUserEvent(this.data);
+  const DeleteUserEvent(this.id);
 
   @override
-  List<Object> get props => [data];
+  List<Object> get props => [id];
 }
