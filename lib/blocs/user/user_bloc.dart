@@ -55,6 +55,15 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           emit(UserErrorState(e.toString()));
         }
       }
+      if (event is UpdateUserPasswordEvent) {
+        emit(UserLoadingState());
+        try {
+          await UserService().updateUserPassword(event.id);
+          emit(UserUpdateSuccessState());
+        } catch (e) {
+          emit(UserErrorState(e.toString()));
+        }
+      }
     });
   }
 }

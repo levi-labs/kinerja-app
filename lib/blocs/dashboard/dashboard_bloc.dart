@@ -14,7 +14,6 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         try {
           emit(DashboardLoading());
           var dashboard = await DashboardService().getDashboard();
-          print('bloc dashboard');
           emit(DashboardLoaded(dashboard));
         } catch (e) {
           emit(DashboardError(e.toString()));

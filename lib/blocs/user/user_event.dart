@@ -36,6 +36,15 @@ class UpdateUserEvent extends UserEvent {
   List<Object> get props => [data];
 }
 
+class UpdateUserPasswordEvent extends UserEvent {
+  final String id;
+
+  const UpdateUserPasswordEvent(this.id);
+
+  @override
+  List<Object> get props => [id];
+}
+
 class DeleteUserEvent extends UserEvent {
   final String id;
 

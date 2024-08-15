@@ -53,7 +53,7 @@ class _PegawaiPageState extends State<PegawaiPage> {
                 return PegawaiCard(data: data);
               },
             ),
-          )
+          ),
         ],
       ),
       floatingActionButton: BlocBuilder<AuthBloc, AuthBlocState>(
@@ -109,50 +109,68 @@ class PegawaiCard extends StatelessWidget {
                 splashColor: primaryColor,
                 borderRadius: BorderRadius.circular(10),
                 onTap: () {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PegawaiEditPage(),
-                    ),
-                    (route) => true, // Remove all previous routes
-                  );
-                  context
-                      .read<PegawaiBloc>()
-                      .add(PegawaiShowByIdEvent(data[index].id.toString()));
+                  if (context.read<AuthBloc>().state is AuthLoginSuccess) {
+                    if ((context.read<AuthBloc>().state as AuthLoginSuccess)
+                            .user
+                            .aksesLevel
+                            .toString() ==
+                        'staf') {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PegawaiEditPage(),
+                        ),
+                        (route) => true, // Remove all previous routes
+                      );
+                      context
+                          .read<PegawaiBloc>()
+                          .add(PegawaiShowByIdEvent(data[index].id.toString()));
+                    }
+                  }
                 },
                 onLongPress: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15)),
-                        title: const Text('Delete Pegawai'),
-                        content: const Text(
-                            'Are you sure you want to delete this Pegawai?'),
-                        actions: <Widget>[
-                          TextButton(
-                            child: const Text('Cancel'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                          TextButton(
-                            child: const Text('Delete'),
-                            onPressed: () {
-                              // Delete logic here
-                              context.read<PegawaiBloc>().add(
-                                    PegawaiDeletedEvent(
-                                      data[index].id.toString(),
-                                    ),
-                                  );
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                  if (context.read<AuthBloc>().state is AuthLoginSuccess) {
+                    if ((context.read<AuthBloc>().state as AuthLoginSuccess)
+                            .user
+                            .aksesLevel
+                            .toString() ==
+                        'staf') {
+                      {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15)),
+                              title: const Text('Delete Pegawai'),
+                              content: const Text(
+                                  'Are you sure you want to delete this Pegawai?'),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text('Cancel'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                TextButton(
+                                  child: const Text('Delete'),
+                                  onPressed: () {
+                                    // Delete logic here
+                                    context.read<PegawaiBloc>().add(
+                                          PegawaiDeletedEvent(
+                                            data[index].id.toString(),
+                                          ),
+                                        );
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                    }
+                  }
                 },
                 child: ListTile(
                   title: Text(

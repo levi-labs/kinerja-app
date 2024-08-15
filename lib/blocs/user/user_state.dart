@@ -33,6 +33,8 @@ class UserUpdateSuccessState extends UserState {}
 
 class UserDeleteSuccessState extends UserState {}
 
+class UserResetPasswordSuccessState extends UserState {}
+
 class UserErrorState extends UserState {
   final String error;
   const UserErrorState(this.error);

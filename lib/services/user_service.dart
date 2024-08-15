@@ -51,19 +51,18 @@ class UserService {
     }
   }
 
-  Future<void> updateUserPassword(UserModel data) async {
+  Future<void> updateUserPassword(String id) async {
     try {
-      var url = Uri.parse('$baseUrl/user/${data.id}');
+      var url = Uri.parse('$baseUrl/user/resetPassword/$id');
       var token = await AuthService().getToken();
-      var response = await http.put(
+      var response = await http.patch(
         url,
-        body: jsonEncode(data.toJson()),
         headers: {
           'Authorization': token,
-          'Content-Type': 'application/json',
         },
       );
       if (response.statusCode == 200) {
+        print(jsonDecode(response.body));
         return jsonDecode(response.body);
       }
       throw jsonDecode(response.body)['error'];

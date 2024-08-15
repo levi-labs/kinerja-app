@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:kinerja_app/blocs/auth/auth_bloc_bloc.dart';
 import 'package:kinerja_app/blocs/nilai/nilai_bloc.dart';
 import 'package:kinerja_app/models/nilai_form_model.dart';
 import 'package:kinerja_app/shared/shared_methods.dart';
@@ -138,19 +139,28 @@ class _NilaiPageState extends State<NilaiPage> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          var jakarta = DateTime.now().toUtc().add(const Duration(hours: 7));
-          var format = DateFormat('yyyy-MM-dd');
-          var formattedDate = format.format(jakarta);
+      floatingActionButton: BlocBuilder<AuthBloc, AuthBlocState>(
+        builder: (context, state) {
+          if (state is AuthLoginSuccess && state.user.aksesLevel == 'staf') {
+            return FloatingActionButton(
+              onPressed: () {
+                var jakarta =
+                    DateTime.now().toUtc().add(const Duration(hours: 7));
+                var format = DateFormat('yyyy-MM-dd');
+                var formattedDate = format.format(jakarta);
 
-          context
-              .read<NilaiBloc>()
-              .add(NilaiCreateByDateEvent(formattedDate.toString()));
-          Navigator.pushNamed(context, '/nilai-add');
+                context
+                    .read<NilaiBloc>()
+                    .add(NilaiCreateByDateEvent(formattedDate.toString()));
+                Navigator.pushNamed(context, '/nilai-add');
+              },
+              backgroundColor: Colors.blue, // Customize the background color
+              child: const Icon(Icons.add),
+            );
+          }
+
+          return Container();
         },
-        backgroundColor: Colors.blue, // Customize the background color
-        child: const Icon(Icons.add),
       ),
     );
   }

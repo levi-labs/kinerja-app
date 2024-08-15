@@ -6,6 +6,7 @@ import 'package:kinerja_app/blocs/kriteria/kriteria_bloc.dart';
 import 'package:kinerja_app/blocs/nilai/nilai_bloc.dart';
 import 'package:kinerja_app/blocs/pegawai/pegawai_bloc.dart';
 import 'package:kinerja_app/blocs/skala/skala_bloc.dart';
+import 'package:kinerja_app/blocs/user/user_bloc.dart';
 import 'package:kinerja_app/shared/shared_methods.dart';
 import 'package:kinerja_app/shared/theme.dart';
 import 'package:kinerja_app/ui/pages/home_page.dart';
@@ -140,10 +141,11 @@ class SideBar extends StatelessWidget {
                         leading: const Icon(Icons.people_rounded),
                         title: const Text('User'),
                         onTap: () {
-                          Navigator.pushAndRemoveUntil(context,
+                          context.read<UserBloc>().add(GetUserEvent());
+                          Navigator.pushReplacement(context,
                               MaterialPageRoute(builder: (context) {
                             return UserPage();
-                          }), (route) => false);
+                          }));
                         }),
                   },
                   ListTile(

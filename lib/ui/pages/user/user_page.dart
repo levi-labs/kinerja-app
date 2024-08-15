@@ -4,6 +4,7 @@ import 'package:kinerja_app/blocs/user/user_bloc.dart';
 import 'package:kinerja_app/models/user_form_model.dart';
 import 'package:kinerja_app/shared/shared_methods.dart';
 import 'package:kinerja_app/shared/theme.dart';
+import 'package:kinerja_app/ui/pages/user/user_form_edit.dart';
 import 'package:kinerja_app/ui/widget/sidebar.dart';
 
 class UserPage extends StatelessWidget {
@@ -25,7 +26,12 @@ class UserPage extends StatelessWidget {
             child: BannerUser(),
           ),
           Expanded(
-            child: BlocBuilder<UserBloc, UserState>(
+            child: BlocConsumer<UserBloc, UserState>(
+              listener: (context, state) {
+                if (state is UserResetPasswordSuccessState) {
+                  context.read<UserBloc>().add(GetUserEvent());
+                }
+              },
               builder: (context, state) {
                 if (state is UserLoadingState) {
                   return const Center(child: CircularProgressIndicator());
@@ -37,6 +43,7 @@ class UserPage extends StatelessWidget {
                   context.read<UserBloc>().add(GetUserEvent());
                   return const Center(child: CircularProgressIndicator());
                 }
+
                 return UserCard(data: data);
               },
             ),
@@ -85,6 +92,9 @@ class UserCard extends StatelessWidget {
                 if (state is UserErrorState) {
                   showCustomSnackBar(context, state.error);
                 }
+                // if (state is UserResetPasswordSuccessState) {
+                //   context.read<UserBloc>().add(GetUserEvent());
+                // }
               },
               child: Stack(
                 children: [
@@ -107,15 +117,16 @@ class UserCard extends StatelessWidget {
                         splashColor: primaryColor,
                         borderRadius: BorderRadius.circular(10),
                         onTap: () {
-                          // Navigator.pushAndRemoveUntil(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => PegawaiEditPage(),
-                          //   ),
-                          //   (route) => true, // Remove all previous routes
-                          // );
-                          // context.read<PegawaiBloc>().add(
-                          //     PegawaiShowByIdEvent(data[index].id.toString()));
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UserEditPage(),
+                            ),
+                            (route) => true, // Remove all previous routes
+                          );
+                          context
+                              .read<UserBloc>()
+                              .add(GetUserByIdEvent(data[index].id.toString()));
                         },
                         onLongPress: () {
                           showDialog(
@@ -124,9 +135,9 @@ class UserCard extends StatelessWidget {
                               return AlertDialog(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15)),
-                                title: const Text('Delete Pegawai'),
+                                title: const Text('Delete User'),
                                 content: const Text(
-                                    'Are you sure you want to delete this Pegawai?'),
+                                    'Are you sure you want to delete this User?'),
                                 actions: <Widget>[
                                   TextButton(
                                     child: const Text('Cancel'),
@@ -224,12 +235,11 @@ class UserCard extends StatelessWidget {
                                         TextButton(
                                           child: const Text('Oke'),
                                           onPressed: () {
-                                            // Delete logic here
-                                            // context.read<UserBloc>().add(
-                                            //       Res(
-                                            //         data[index].id.toString(),
-                                            //       ),
-                                            //     );
+                                            context.read<UserBloc>().add(
+                                                  UpdateUserPasswordEvent(
+                                                    data[index].id.toString(),
+                                                  ),
+                                                );
                                             Navigator.of(context).pop();
                                           },
                                         ),
